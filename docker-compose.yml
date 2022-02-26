@@ -1,0 +1,14 @@
+version: '2.2'
+
+services:
+  ocr-dev-container:
+    image: ocr:latest
+    container_name: ocr-dev-container
+    environment:
+      - "DISPLAY=unix$DISPLAY" 
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw 
+      - ~/github/ocr:/root/catkin_ws/src/ocr
+    command: tail -F anything
+    privileged: true
+    restart: always
