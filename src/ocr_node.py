@@ -10,6 +10,7 @@ from std_msgs.msg import String
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge, CvBridgeError
 import numpy as np
+import imutils
 
 class OCR:
 
@@ -19,7 +20,15 @@ class OCR:
     self.image_sub = rospy.Subscriber("/usb_cam/image_raw",Image,self.callback)
 
     model_dir = '/root/catkin_ws/src/ocr/model/knn_trained_model.xml'
-    model = cv2.ml.KNearest_load(model_dir)
+    self.model = cv2.ml.KNearest_create()
+    self.model = cv2.ml.KNearest_load(model_dir)
+
+    self.old_result = [0, 0, 0]
+    self.result = [0, 0, 0]
+    self.tracked_result = [0, 0, 0]
+
+    self.start_cnt = 0
+    
 
   def callback(self,data):
     try:
@@ -31,78 +40,122 @@ class OCR:
 
 
     try:
-      x=290; y=100; w=50; h=170
+      # set roi
+      x=255; y=120; w=50; h=180
       roi_img = cv_image[y:y+h, x:x+w]     
       cv2.imshow('roi_img', roi_img)
 
-      # 
+      # hsv convert
       hsv = cv2.cvtColor(roi_img, cv2.COLOR_BGR2HSV)
 
-      rng_1 = cv2.inRange(hsv, (0, 100, 0), (255, 255, 200))
-      rng_2 = cv2.inRange(hsv, (0, 0, 0), (255, 255, 100))
+      # inrange for red number and black number
+      rng_1 = cv2.inRange(hsv, (0, 70, 0), (255, 255, 200))
+      rng_2 = cv2.inRange(hsv, (0, 0, 0), (255, 255, 80))
 
       cv2.imshow('rng_1', rng_1)
       cv2.imshow('rng_2', rng_2)
 
+      # sum each ranged image
       sum = rng_1 + rng_2
       cv2.imshow('sum', sum)
 
+      # dilation
+      #kernel = np.ones((3, 3), np.uint8)
+      #dilation = cv2.dilate(sum, kernel, iterations=1)  #// make dilation image
+      #cv2.imshow('dilation', dilation)
+
+      # Removing noise
+      # https://pyimagesearch.com/2015/02/09/removing-contours-image-using-python-opencv/
+
+      cnts = cv2.findContours(sum,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
+      cnts = imutils.grab_contours(cnts)
+      mask = np.ones(sum.shape[:2], dtype="uint8") * 255
+
+      # loop over the contours
+      for c in cnts:
+        # if the contour is bad, draw it on the mask
+        if self.is_contour_bad(c):
+            cv2.drawContours(mask, [c], -1, 0, -1)
+
+      # remove the contours from the image and show the resulting images
+      sum = cv2.bitwise_and(sum, sum, mask=mask)
+      cv2.imshow("Mask", mask)
+      cv2.imshow("After", sum)
+
       # https://stackoverflow.com/questions/9413216/simple-digit-recognition-ocr-in-opencv-python
-      # Pre-processing
-      #gray = cv2.cvtColor(roi_img,cv2.COLOR_BGR2GRAY)
-      #cv2.imshow('gray', gray)
-      #blur = cv2.GaussianBlur(gray,(5,5),0)
-      #cv2.imshow('blur', blur)
       thresh = cv2.adaptiveThreshold(sum,255,1,1,3,2)
       cv2.imshow('thresh', thresh)
 
-      contours,hierarchy = cv2.findContours(sum,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
+      contours,hierarchy = cv2.findContours(thresh,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
 
-      samples =  np.empty((0,100))
-      responses = []
-      keys = [i for i in range(48,58)]
+      out = np.zeros(sum.shape,np.uint8)
 
       for cnt in contours:
-        if cv2.contourArea(cnt)>100:
+        area = cv2.contourArea(cnt)
+        if area>10 and area<600:
             [x,y,w,h] = cv2.boundingRect(cnt)
-
-            if  h>20:
-                #print(cv2.contourArea(cnt))
-                #print(w)
-                #print(h)
-                #print("\n")
+            #M = cv2.moments(cnt)
+            #cX = int(M["m10"] / M["m00"])
+            #cY = int(M["m01"] / M["m00"])
+            cX = x+w/2
+            cY = y+h/2
+            if  h>20 and h<50 and w<40 :
                 cv2.rectangle(roi_img,(x,y),(x+w,y+h),(0,0,255),2)
-                roi = sum[y:y+h,x:x+w]
-                roismall = cv2.resize(roi,(10,10))
-                #cv2.imshow('norm',roi_img)
-                cv2.imshow('roi',roi)
-                cv2.imshow('roismall',roismall)
-                key = cv2.waitKey(0)
-
-                if key == 27:  # (escape to quit)
-                    sys.exit()
-                elif key in keys:
-                    responses.append(int(chr(key)))
-                    sample = roismall.reshape((1,100))
-                    samples = np.append(samples,sample,0)
+                roi = thresh[y:y+h,x:x+w]
+                roismall = cv2.resize(roi,(40,40))
+                roismall = roismall.reshape((1,1600))
+                roismall = np.float32(roismall)
+                retval, results, neigh_resp, dists = self.model.findNearest(roismall, k = 1)
+                string = str(int((results[0][0])))
+                if cX > 15 and cX < 35:
+                  if (cY>15 and cY<45):
+                    self.result[0] = int((results[0][0]))
+                    cv2.putText(out,string,(x,y+h),0,1,(255,255,255))
+                  elif (cY>75 and cY<105):
+                    self.result[1] = int((results[0][0]))
+                    cv2.putText(out,string,(x,y+h),0,1,(255,255,255))
+                  elif (cY>135 and cY<165):
+                    self.result[2] = int((results[0][0]))
+                    cv2.putText(out,string,(x,y+h),0,1,(255,255,255))
+                
+            #debug_str = 'area:' + str(area) + "/cX:" + str(cX) + "/cY" + str(cY) + "/h" + str(h)
+            #print(debug_str)
+            #print(self.result)
 
       cv2.imshow('final_image',roi_img)
 
-      responses = np.array(responses,np.float32)
-      responses = responses.reshape((responses.size,1))
-      print("training complete")
-
-      np.savetxt('generalsamples.data',samples)
-      np.savetxt('generalresponses.data',responses)
+      cv2.imshow('out',out)
+      #cv2.waitKey(0)
 
       cv2.waitKey(3)
+
+      # chase volume
+      if self.start_cnt < 5:
+        self.start_cnt = self.start_cnt + 1
+        self.tracked_result = self.result
+        self.old_result = self.tracked_result
+      else:
+        #print(self.old_result)
+        #print(self.result)
+        #print("\n")
+        if ((self.result[0] >= self.tracked_result[0]-1) \
+          and (self.result[0] <= self.tracked_result[0]+1)) \
+          and ((self.result[1] >= self.tracked_result[1]-1) \
+          and (self.result[1] <= self.tracked_result[1]+1)) \
+          and ((self.result[2] >= self.tracked_result[2]-1) \
+          and (self.result[2] <= self.tracked_result[2]+1)):
+          self.tracked_result = self.result
+          print(self.tracked_result)
+      
+      self.old_result = self.tracked_result
+    
 
     except CvBridgeError as e:
       print(e)
 
-  def is_contour_bad(c):
+  def is_contour_bad(self, c):
 	# approximate the contour
-    if cv2.contourArea(c)>50:
+    if cv2.contourArea(c)>10:
         [x,y,w,h] = cv2.boundingRect(c)
         if  h>20:
             return False

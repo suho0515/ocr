@@ -4,7 +4,7 @@ import cv2
 
 def is_contour_bad(c):
 	# approximate the contour
-    if cv2.contourArea(c)>50:
+    if cv2.contourArea(c)>20:
         [x,y,w,h] = cv2.boundingRect(c)
         if  h>20:
             return False
@@ -58,7 +58,7 @@ while cv2.waitKey(33) < 0:
     cv2.imshow("Mask", mask)
     cv2.imshow("After", sum)
     # https://hoony-gunputer.tistory.com/entry/OpenCv-python-%EA%B8%B0%EC%B4%88-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EC%9D%BD%EA%B3%A0-%EC%A0%80%EC%9E%A5%ED%95%98%EA%B8%B0
-    name = '/root/catkin_ws/src/ocr/dataset/' + str(number) + '.jpg'
+    name = '/root/catkin_ws/src/ocr/dataset/9/' + str(number) + '.jpg'
     cv2.imwrite(name, sum)
     cv2.waitKey(0)
     
