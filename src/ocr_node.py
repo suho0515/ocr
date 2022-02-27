@@ -24,13 +24,18 @@ class OCR:
     self.model = cv2.ml.KNearest_load(model_dir)
 
     self.old_result = [0, 0, 0]
-    self.result = [0, 0, 0]
+    self.result = [-1, -1, -1]
+    self.result_cnt = [[],[],[]]
+    self.result_max = [-1, -1, -1]
+    self.max_param = 5
     self.tracked_result = [0, 0, 0]
 
     self.start_cnt = 0
     
 
   def callback(self,data):
+    self.result = [-1, -1, -1]
+
     try:
       cv_image = self.bridge.imgmsg_to_cv2(data, "bgr8")
       cv_image = cv2.flip(cv_image,-1)
@@ -40,17 +45,20 @@ class OCR:
 
 
     try:
+      height, width, channel = cv_image.shape
+      matrix = cv2.getRotationMatrix2D((width/2, height/2), -3, 1)
+      dst = cv2.warpAffine(cv_image, matrix, (width, height))
       # set roi
-      x=255; y=120; w=50; h=180
-      roi_img = cv_image[y:y+h, x:x+w]     
+      x=260; y=90; w=50; h=180
+      roi_img = dst[y:y+h, x:x+w]     
       cv2.imshow('roi_img', roi_img)
 
       # hsv convert
       hsv = cv2.cvtColor(roi_img, cv2.COLOR_BGR2HSV)
 
       # inrange for red number and black number
-      rng_1 = cv2.inRange(hsv, (0, 70, 0), (255, 255, 200))
-      rng_2 = cv2.inRange(hsv, (0, 0, 0), (255, 255, 80))
+      rng_1 = cv2.inRange(hsv, (0, 50, 0), (255, 255, 200))
+      rng_2 = cv2.inRange(hsv, (0, 0, 0), (255, 255, 100))
 
       cv2.imshow('rng_1', rng_1)
       cv2.imshow('rng_2', rng_2)
@@ -58,6 +66,10 @@ class OCR:
       # sum each ranged image
       sum = rng_1 + rng_2
       cv2.imshow('sum', sum)
+
+      # kernel = np.ones((3, 3), np.uint8)
+      # erosion = cv2.erode(sum, kernel, iterations=1)  #// make erosion image
+      # cv2.imshow('erosion', erosion)
 
       # dilation
       #kernel = np.ones((3, 3), np.uint8)
@@ -105,17 +117,38 @@ class OCR:
                 roismall = cv2.resize(roi,(40,40))
                 roismall = roismall.reshape((1,1600))
                 roismall = np.float32(roismall)
-                retval, results, neigh_resp, dists = self.model.findNearest(roismall, k = 1)
+                retval, results, neigh_resp, dists = self.model.findNearest(roismall, k = 3)
                 string = str(int((results[0][0])))
-                if cX > 15 and cX < 35:
+                if cX > 20 and cX < 30:
                   if (cY>15 and cY<45):
                     self.result[0] = int((results[0][0]))
+                    if len(self.result_cnt[0]) < self.max_param:
+                      self.result_cnt[0].append(int((results[0][0])))
+                    else:
+                      self.result_cnt[0].pop(0)
+                      self.result_cnt[0].append(int((results[0][0])))
+                      self.result_max[0] = max(self.result_cnt[0])
+                      #print(self.result_max[0])
                     cv2.putText(out,string,(x,y+h),0,1,(255,255,255))
                   elif (cY>75 and cY<105):
                     self.result[1] = int((results[0][0]))
+                    if len(self.result_cnt[1]) < self.max_param:
+                      self.result_cnt[1].append(int((results[0][0])))
+                    else:
+                      self.result_cnt[1].pop(0)
+                      self.result_cnt[1].append(int((results[0][0])))
+                      self.result_max[1] = max(self.result_cnt[1])
+                      #print(self.result_max[1])
                     cv2.putText(out,string,(x,y+h),0,1,(255,255,255))
                   elif (cY>135 and cY<165):
                     self.result[2] = int((results[0][0]))
+                    if len(self.result_cnt[2]) < self.max_param:
+                      self.result_cnt[2].append(int((results[0][0])))
+                    else:
+                      self.result_cnt[2].pop(0)
+                      self.result_cnt[2].append(int((results[0][0])))
+                      self.result_max[2] = max(self.result_cnt[2])
+                      #print(self.result_max[2])
                     cv2.putText(out,string,(x,y+h),0,1,(255,255,255))
                 
             #debug_str = 'area:' + str(area) + "/cX:" + str(cX) + "/cY" + str(cY) + "/h" + str(h)
@@ -135,19 +168,32 @@ class OCR:
         self.tracked_result = self.result
         self.old_result = self.tracked_result
       else:
+        if (self.result_max[0] != -1) and (self.result_max[1] != -1) and (self.result_max[2] != -1):
+          rospy.loginfo('1:%s/ 2:%s/ 3:%s' % (str(self.result_max[0]), str(self.result_max[1]), str(self.result_max[2])))
+          
+          
+        
         #print(self.old_result)
         #print(self.result)
         #print("\n")
-        if ((self.result[0] >= self.tracked_result[0]-1) \
-          and (self.result[0] <= self.tracked_result[0]+1)) \
-          and ((self.result[1] >= self.tracked_result[1]-1) \
-          and (self.result[1] <= self.tracked_result[1]+1)) \
-          and ((self.result[2] >= self.tracked_result[2]-1) \
-          and (self.result[2] <= self.tracked_result[2]+1)):
-          self.tracked_result = self.result
-          print(self.tracked_result)
+        # if ((self.result[0] < self.old_result[0]-1) \
+        #   or (self.result[0] > self.old_result[0]+1)): sys.exit(1)
+        # if ((self.result[1] < self.old_result[1]-1) \
+        #   or (self.result[1] > self.old_result[1]+1)): sys.exit(1)
+        # if ((self.result[2] < self.old_result[2]-1) \
+        #   or (self.result[2] > self.old_result[2]+1)): sys.exit(1)
+        # if ((self.result[0] >= self.tracked_result[0]-1) \
+        #   and (self.result[0] <= self.tracked_result[0]+1)) \
+        #   and ((self.result[1] >= self.tracked_result[1]-1) \
+        #   and (self.result[1] <= self.tracked_result[1]+1)) \
+        #   and ((self.result[2] >= self.tracked_result[2]-1) \
+        #   and (self.result[2] <= self.tracked_result[2]+1)):
+        #   self.tracked_result = self.result
+        #   print(self.tracked_result)
+
+        #print(self.result)
       
-      self.old_result = self.tracked_result
+      self.old_result = self.result
     
 
     except CvBridgeError as e:
@@ -157,7 +203,7 @@ class OCR:
 	# approximate the contour
     if cv2.contourArea(c)>10:
         [x,y,w,h] = cv2.boundingRect(c)
-        if  h>20:
+        if  h>20 and h<40 and w<40:
             return False
 
 	# the contour is 'bad' if it is not digit
