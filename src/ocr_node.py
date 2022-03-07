@@ -42,7 +42,7 @@ class OCR:
     try:
       cv_image = self.bridge.imgmsg_to_cv2(data, "bgr8")
       cv_image = cv2.flip(cv_image,-1)
-      cv2.imshow("cv_image", cv_image)
+      #cv2.imshow("cv_image", cv_image)
     except CvBridgeError as e:
       print(e)
 
@@ -53,12 +53,12 @@ class OCR:
       dst = cv2.warpAffine(cv_image, matrix, (width, height))
       
       roi = self.get_roi(cv_image)
-      cv2.imshow('roi', roi)
+      #cv2.imshow('roi', roi)
 
       roi_1, roi_2, roi_3 = self.get_each_roi(roi)
-      cv2.imshow("roi_1", roi_1)
-      cv2.imshow("roi_2", roi_2)
-      cv2.imshow("roi_3", roi_3)
+      #cv2.imshow("roi_1", roi_1)
+      #cv2.imshow("roi_2", roi_2)
+      #cv2.imshow("roi_3", roi_3)
 
       vol = self.detect_volume(roi_1, roi_2, roi_3)
 
@@ -67,7 +67,7 @@ class OCR:
 
       self.pub.publish(tracked_vol)
 
-      cv2.waitKey(100)
+      cv2.waitKey(10)
 
     except CvBridgeError as e:
       print(e)
