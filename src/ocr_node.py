@@ -8,6 +8,7 @@ import rospy
 import cv2
 from std_msgs.msg import String
 from std_msgs.msg import Int8
+from std_msgs.msg import Int16MultiArray
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge, CvBridgeError
 import numpy as np
@@ -20,13 +21,14 @@ class OCR:
 
     self.bridge = CvBridge()
     self.image_sub = rospy.Subscriber("/usb_cam/image_raw",Image,self.callback)
+    self.state_sub = rospy.Subscriber("controller_state",Int8,self.stateCallback)
 
     model_dir = '/root/catkin_ws/src/ocr/model/knn_trained_model.xml'
     self.model = cv2.ml.KNearest_create()
     self.model = cv2.ml.KNearest_load(model_dir)
 
     self.result_cnt = []
-    self.max_param = 10
+    self.max_param = 3
     self.result_max = -1
     self.pre_vol = -1
     self.pre_vol_array = [-1, -1, -1]
@@ -38,12 +40,28 @@ class OCR:
     self.init_vol_flag = False
 
     self.pub = rospy.Publisher('volume', Int8, queue_size=1)
+    self.ctr_cmd_sub = rospy.Subscriber("command", Int16MultiArray, self.ctrCmdCallback)
 
     self.image_pub = rospy.Publisher("semantic_image",Image)
+
+    self.state = -1
+    self.goal_vol = -1
     
+  def ctrCmdCallback(self,cmd):
+    self.goal_vol = cmd.data[5]
+    print(cmd.data[5])
+    print(self.goal_vol)
+    
+
+  def stateCallback(self,data):
+    self.state = data.data
+    #print(self.state)
 
   def callback(self,data):
     self.result = [-1, -1, -1]
+
+  
+    
 
     try:
       cv_image = self.bridge.imgmsg_to_cv2(data, "bgr8")
@@ -106,6 +124,11 @@ class OCR:
           #print(tracked_vol)
 
           if(tracked_vol != None):
+            # reset
+            if(abs(tracked_vol - vol) > 3):
+              self.result_cnt = []
+              self.init_vol_flag = False
+              self.pre_vol_array = [-1, -1, -1]
             
             #self.str_valid_vol = str_result
             self.str_valid_vol = str(self.pre_vol).zfill(3)
@@ -120,15 +143,26 @@ class OCR:
         str_valid_val = "valid value: " + self.str_valid_vol
         str_rt_val = "real-time value: " + self.str_rt_vol       
         str_predicted_val = "predicted value: "
-        str_target_val = "target value: "
+        str_target_val = "target value: " + str(self.goal_vol)
+        str_state = ""
+        if(self.state == 1):
+          str_state = "MOVE UP"
+        elif(self.state == 2):
+          str_state = "MOVE DOWN"
+        elif(self.state == 3):
+          str_state = "STOP"
 
-        cv2.putText(semantic_image,str_valid_val,(130, 50),0,0.5,(255,255,255),1)
-        cv2.putText(semantic_image,str_rt_val,(130, 100),0,0.5,(255,255,255),1)
-        cv2.putText(semantic_image,str_predicted_val,(130, 150),0,0.5,(255,255,255),1)
-        cv2.putText(semantic_image,self.str_predicted_val_1,(265, 170),0,0.5,(255,255,255),1)
-        cv2.putText(semantic_image,self.str_predicted_val_2,(265, 190),0,0.5,(255,255,255),1)
-        cv2.putText(semantic_image,self.str_predicted_val_3,(265, 210),0,0.5,(255,255,255),1)
-        cv2.putText(semantic_image,str_target_val,(130, 240),0,0.5,(255,255,255),1)
+        str_state_full = "state: " + str_state
+
+        cv2.putText(semantic_image,str_valid_val,(130, 20),0,0.5,(255,255,255),1)
+        cv2.putText(semantic_image,str_rt_val,(130, 70),0,0.5,(255,255,255),1)
+        cv2.putText(semantic_image,str_predicted_val,(130, 120),0,0.5,(255,255,255),1)
+        cv2.putText(semantic_image,self.str_predicted_val_1,(265, 140),0,0.5,(255,255,255),1)
+        cv2.putText(semantic_image,self.str_predicted_val_2,(265, 160),0,0.5,(255,255,255),1)
+        cv2.putText(semantic_image,self.str_predicted_val_3,(265, 180),0,0.5,(255,255,255),1)
+        cv2.putText(semantic_image,str_target_val,(130, 210),0,0.5,(255,255,255),1)
+        cv2.putText(semantic_image,str_state_full,(130, 260),0,0.5,(255,255,255),1)
+
         # publish semantic image message
         self.image_pub.publish(self.bridge.cv2_to_imgmsg(semantic_image, "bgr8"))
 
@@ -257,7 +291,7 @@ class OCR:
     vol_array = [-1, -1, -1]
 
     if((self.pre_vol_array[0] == -1) and (self.pre_vol_array[1] == -1) and (self.pre_vol_array[2] == -1)):
-      result, semantic_image = self.detect_each_volume(roi_1, 100, semantic_image, pts_each[0])
+      result, semantic_image = self.detect_each_volume(roi_1, 's', 50, semantic_image, pts_each[0])
       if(result == -1):
         error_flag = True
       else:
@@ -267,24 +301,27 @@ class OCR:
           result = 0
         vol_array[0] = result
 
-      result, semantic_image = self.detect_each_volume(roi_2, 90, semantic_image, pts_each[1])
+      result, semantic_image = self.detect_each_volume(roi_2, 'v', 90, semantic_image, pts_each[1])
       #print(result)
       if(result == -1):
         error_flag = True
       else:
         vol_array[1] = result
 
-      result, semantic_image = self.detect_each_volume(roi_3, 90, semantic_image, pts_each[2])
+      result, semantic_image = self.detect_each_volume(roi_3, 'v', 90, semantic_image, pts_each[2])
       #print(result)
       if(result == -1):
         error_flag = True
       else:
         vol_array[2] = result
 
+      if(vol_array[1] != 0 or vol_array[2] != 0):
+        vol_array[0] = 0
+
       
 
     else:
-      result, semantic_image = self.detect_each_volume(roi_1, 100, semantic_image, pts_each[0])
+      result, semantic_image = self.detect_each_volume(roi_1, 's', 50, semantic_image, pts_each[0])
       if(result == -1):
         if(self.pre_vol_array[0] != -1):
           result = self.pre_vol_array[0]
@@ -294,11 +331,14 @@ class OCR:
       else:
         # check num_1
         # it should be 0 or 1 only
+        if(self.pre_vol_array[1] != 9):
+          result = 0
         if(result != 1):
           result = 0
+          
         vol_array[0] = result
 
-      result, semantic_image = self.detect_each_volume(roi_2, 90, semantic_image, pts_each[1])
+      result, semantic_image = self.detect_each_volume(roi_2, 'v', 90, semantic_image, pts_each[1])
       if(result == -1):
         error_flag = True
       else:
@@ -319,24 +359,40 @@ class OCR:
         vol_array[1] = result
           
 
-      result, semantic_image = self.detect_each_volume(roi_3, 90, semantic_image, pts_each[2])
+      result, semantic_image = self.detect_each_volume(roi_3, 'v', 90, semantic_image, pts_each[2])
+      #print(result)
       if(result == -1):
         error_flag = True
       else:
-        # check num_2
+        # check num_3
         # it should be +1 or -1 from previous value
         if(self.pre_vol_array[2] == 9):
-          if(result != 0 and result != 9 and result != 8):
-            result = -1
-            error_flag = True
+          if(self.state == 1):
+            if(result != 0 and result != 9):
+              result = -1
+              error_flag = True
+          elif(self.state == 2):
+            if(result != 9 and result != 8):
+              result = -1
+              error_flag = True
         elif(self.pre_vol_array[2] ==0):
-          if(result != 1 and result != 0 and result != 9):
-            result = -1
-            error_flag = True
+          if(self.state == 1):
+            if(result != 1 and result != 0):
+              result = -1
+              error_flag = True
+          if(self.state == 2):
+            if(result != 0 and result != 9):
+              result = -1
+              error_flag = True
         else:
-          if((result < self.pre_vol_array[2]-1) or (result > self.pre_vol_array[2]+1)):
-            result = -1
-            error_flag = True
+          if(self.state == 1):
+            if(result < self.pre_vol_array[2]):
+              result = -1
+              error_flag = True
+          if(self.state == 2):
+            if(result > self.pre_vol_array[2]):
+              result = -1
+              error_flag = True
         vol_array[2] = result
 
     
@@ -349,19 +405,34 @@ class OCR:
       #print(self.pre_vol_array)
       return semantic_image, vol_array
 
-  def detect_each_volume(self, roi, thresh_value, semantic_image, pt_each):
+  def detect_each_volume(self, roi, format, thresh_value, semantic_image, pt_each):
     result_val = None
     roi_h, roi_w, roi_c = roi.shape
 
     hsv = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
     h, s, v = cv2.split(hsv)
-    #cv2.imshow("h", h)
-    #cv2.imshow("s", s)
-    #cv2.imshow("v", v)
-    (thresh, bin_img) = cv2.threshold(v, thresh_value, 255, cv2.THRESH_BINARY_INV)
-    #cv2.imshow("bin", bin_img)
+    
+    hsv_img = None
+    bin_img = None
+    if(format == 'h'):
+      hsv_img = h.copy()
+      #cv2.imshow("h", h)
+    elif(format == 's'):
+      hsv_img = s.copy()
+      #cv2.imshow("s", s)
+      (thresh, bin_img) = cv2.threshold(hsv_img, thresh_value, 255, cv2.THRESH_BINARY)
+      #cv2.imshow("bin", bin_img)
+    elif(format == 'v'):
+      hsv_img = v.copy()
+      #cv2.imshow("v", v)
+      (thresh, bin_img) = cv2.threshold(hsv_img, thresh_value, 255, cv2.THRESH_BINARY_INV)
+      #cv2.imshow("bin", bin_img)
+    
+    #(thresh, bin_img) = cv2.threshold(hsv_img, thresh_value, 255, cv2.THRESH_BINARY_INV)
+    
+    #cv2.waitKey(100)
 
-    contours,hierarchy = cv2.findContours(bin_img,cv2.RETR_LIST,cv2.CHAIN_APPROX_SIMPLE)
+    contours,hierarchy = cv2.findContours(bin_img,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
     out = np.zeros(roi.shape,np.uint8)
     draw_flag = False
     #print(len(contours))
