@@ -25,3 +25,9 @@ RUN /bin/bash -c "source /opt/ros/noetic/setup.bash &&\
     apt-get install -y tesseract-ocr tesseract-ocr-script-hang tesseract-ocr-script-hang-vert &&\
     pip3 install pytesseract &&\
     pip3 install imutils"
+
+# Install Python Package for Documentation
+RUN /bin/bash -c "source /opt/ros/noetic/setup.bash &&\
+    pip3 install Sphinx &&\
+    pip3 install sphinx_rtd_theme &&\
+    apt-get install -y ros-noetic-rosdoc-lite"

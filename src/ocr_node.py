@@ -14,7 +14,6 @@ from cv_bridge import CvBridge, CvBridgeError
 import numpy as np
 import imutils
 
-
 class OCR:
 
   def __init__(self):
@@ -42,7 +41,8 @@ class OCR:
     self.pub = rospy.Publisher('volume', Int8, queue_size=1)
     self.ctr_cmd_sub = rospy.Subscriber("command", Int16MultiArray, self.ctrCmdCallback)
 
-    self.image_pub = rospy.Publisher("semantic_image",Image)
+    self.image_pub = rospy.Publisher("image_raw",Image, queue_size=1)
+    self.semantic_image_pub = rospy.Publisher("semantic_image",Image, queue_size=1)
 
     self.state = -1
     self.goal_vol = -1
@@ -64,9 +64,12 @@ class OCR:
     
 
     try:
-      cv_image = self.bridge.imgmsg_to_cv2(data, "bgr8")
-      cv_image = cv2.flip(cv_image,-1)
+      cv_image = self.convert_to_cv_image(data)
+      if(cv_image is None):
+        raise Exception("cv_image has no image.")
+      self.image_pub.publish(self.bridge.cv2_to_imgmsg(cv_image, "bgr8"))
       #cv2.imshow("cv_image", cv_image)
+
     except CvBridgeError as e:
       print(e)
 
@@ -81,6 +84,7 @@ class OCR:
 
       #print(np.sum(roi[0:h, 0:w]))
       #cv2.imshow('roi', roi)
+      cv2.waitKey(10)
       if(np.sum(roi[0:h, 0:w]) != 0):
         semantic_image = roi.copy()
         black_img = np.zeros([semantic_image.shape[0],200,3],dtype=np.uint8)
@@ -164,10 +168,50 @@ class OCR:
         cv2.putText(semantic_image,str_state_full,(130, 260),0,0.5,(255,255,255),1)
 
         # publish semantic image message
-        self.image_pub.publish(self.bridge.cv2_to_imgmsg(semantic_image, "bgr8"))
+        self.semantic_image_pub.publish(self.bridge.cv2_to_imgmsg(semantic_image, "bgr8"))
+
+        
 
     except CvBridgeError as e:
       print(e)
+
+  
+  def convert_to_cv_image(self, data):
+    """!
+    @brief when image callback function get the ros image message, convert it to cv_image(for opencv format)
+    @details 
+
+    @param[in] bridge: bridge which can convert ros image message to cv_image
+    @note input constraints: 
+    @n  - none
+
+    @param[in] data: ros image message
+    @note output constraints: 
+    @n                        - cv_image should not be empty 
+    @n                        - cv_image should be sized 640 x 480 
+    @n                        - cv_image should be color image (3 channel)
+
+    @return cv_image converted to opencv format image
+    """
+    try:
+      cv_image = self.bridge.imgmsg_to_cv2(data, "bgr8")
+      if cv_image is None:
+        raise Exception('cv_image has no image.')
+
+      h, w, c = cv_image.shape
+      if((h != 480) or (w != 640)):
+        string = "size of cv_image is not 640x480. the size of cv_image is " + str(w) + "x" + str(h) + "."
+        raise Exception(string)
+
+      if (c != 3):
+        string = "channel of cv_image is not 3(rgb color image). the channel of cv_image is " + str(c) + "."
+        raise Exception(string)
+
+      cv_image = cv2.flip(cv_image,-1)
+      return cv_image
+    except Exception as e:
+      print('error is occured.', e)
+      return None
 
   def is_contour_bad(self, c):
 	# approximate the contour
@@ -184,8 +228,24 @@ class OCR:
     marked_img = img.copy()
     h, w, c = img.shape
     result = np.zeros((w,h,1), dtype="uint8")
+
+    draft_roi_img = img[0:int(h*(3/4)), int(w*(3/9)):int(w*(5/8)-20)]
+    cv2.imshow("draft_roi_img", draft_roi_img)
+
+    hsv = cv2.cvtColor(draft_roi_img, cv2.COLOR_BGR2HSV)
+    h_img, s_img, v_img = cv2.split(hsv)
+    #cv2.imshow("h", h_img)
+    #cv2.imshow("s", s_img)
+    #cv2.imshow("v", v_img)
+
+    marked_img = h_img.copy()
+
+    ret, rng = cv2.threshold(h_img, 80, 255, cv2.THRESH_BINARY_INV)
+    cv2.imshow("rng",rng)
+
     # inrange for red number and black number
-    rng = cv2.inRange(img, (100, 100, 100), (255, 255, 255))
+    #rng = cv2.inRange(img, (100, 100, 100), (255, 255, 255))
+    #cv2.imshow("rng",rng)
 
     # Removing noise
     # https://pyimagesearch.com/2015/02/09/removing-contours-image-using-python-opencv/
@@ -224,7 +284,7 @@ class OCR:
         pts[pts_cnt] = [cX, cY]
         pts_cnt += 1
     
-    #cv2.imshow("marked_img", marked_img)
+      cv2.imshow("marked_img", marked_img)
 
     # perspective transform
     # https://minimin2.tistory.com/135
@@ -258,7 +318,7 @@ class OCR:
       mtrx = cv2.getPerspectiveTransform(pts1, pts2)
       
       # 원근 변환 적용
-      result = cv2.warpPerspective(img, mtrx, (width, height))
+      result = cv2.warpPerspective(draft_roi_img, mtrx, (width, height))
       #cv2.imshow('scanned', result)
 
     return result
