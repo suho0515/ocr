@@ -3,9 +3,9 @@ authors: ''
 brief: ''
 bugtracker: ''
 depends:
-- catkin
 - python-catkin-pkg
 - rospy
+- catkin
 description: The ocr package
 license: TODO
 maintainers: root <root@todo.todo>

@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
-from __future__ import print_function
 
-#import roslib
-#roslib.load_manifest('my_package')
 import sys
 import rospy
 import cv2
@@ -17,10 +14,42 @@ import imutils
 class OCR:
 
   def __init__(self):
-
+    # Subscriber
+    ## bridge which exist for converting ros image message data to opencv image format
     self.bridge = CvBridge()
-    self.image_sub = rospy.Subscriber("/usb_cam/image_raw",Image,self.callback)
+    ## image subscriber which retreive topic message "/usb_cam/image_raw"
+    self.img_sub = rospy.Subscriber("/usb_cam/image_raw",Image,self.callback)
+
+    # Publisher
+    ## raw image publisher. the topic message is "image_raw" which is not same with "/usb_cam/image_raw".(cause flip method is adapted) 
+    self.img_pub = rospy.Publisher("image_raw",Image, queue_size=1)
+    ## draft roi image publisher. the topic message is "draft_roi_image"
+    self.draft_roi_img_pub = rospy.Publisher("draft_roi_image",Image, queue_size=1)
+    ## big hsv image(in hsv format) publisher. the topic message is "big_hsv_image".
+    self.big_hsv_img_pub = rospy.Publisher("big_hsv_img",Image, queue_size=1)
+    ## big h image(in hsv format) publisher. the topic message is "big_h_image".
+    self.big_h_img_pub = rospy.Publisher("big_h_img",Image, queue_size=1)
+    ## big s image(in hsv format) publisher. the topic message is "big_s_image".
+    self.big_s_img_pub = rospy.Publisher("big_s_img",Image, queue_size=1)
+    ## big v image(in hsv format) publisher. the topic message is "big_v_image".
+    self.big_v_img_pub = rospy.Publisher("big_v_img",Image, queue_size=1)
+    ## big binary image publisher. the topic message is "big_binary_image".
+    self.big_bin_img_pub = rospy.Publisher("big_binary_img",Image, queue_size=1)
+    ## big noise removed binary image publisher. the topic message is "big_noise_removed_binary_image".
+    self.big_noise_removed_bin_img_pub = rospy.Publisher("big_noise_removed_binary_image",Image, queue_size=1)
+    ## big mask binary image publisher. the topic message is "big_mask_binary_image".
+    self.big_mask_bin_img_pub = rospy.Publisher("big_mask_binary_image",Image, queue_size=1)
+
+
+
+    # Variables
+    ## self.debug_flag: if debug_flag is true, all debug topic message would published. if debug_flag is false, only necessary topic message would published.
+    self.debug_flag = True
+
+
     self.state_sub = rospy.Subscriber("controller_state",Int8,self.stateCallback)
+
+
 
     model_dir = '/root/catkin_ws/src/ocr/model/knn_trained_model.xml'
     self.model = cv2.ml.KNearest_create()
@@ -41,7 +70,7 @@ class OCR:
     self.pub = rospy.Publisher('volume', Int8, queue_size=1)
     self.ctr_cmd_sub = rospy.Subscriber("command", Int16MultiArray, self.ctrCmdCallback)
 
-    self.image_pub = rospy.Publisher("image_raw",Image, queue_size=1)
+    
     self.semantic_image_pub = rospy.Publisher("semantic_image",Image, queue_size=1)
 
     self.state = -1
@@ -59,133 +88,150 @@ class OCR:
 
   def callback(self,data):
     self.result = [-1, -1, -1]
-
-  
-    
-
     try:
-      cv_image = self.convert_to_cv_image(data)
-      if(cv_image is None):
-        raise Exception("cv_image has no image.")
-      self.image_pub.publish(self.bridge.cv2_to_imgmsg(cv_image, "bgr8"))
-      #cv2.imshow("cv_image", cv_image)
+      self.estimate_volume(data)
 
     except CvBridgeError as e:
       print(e)
 
-    try:
-      height, width, channel = cv_image.shape
-      matrix = cv2.getRotationMatrix2D((width/2, height/2), 0, 1)
-      dst = cv2.warpAffine(cv_image, matrix, (width, height))
+    # try:
+    #   height, width, channel = cv_image.shape
+    #   matrix = cv2.getRotationMatrix2D((width/2, height/2), 0, 1)
+    #   dst = cv2.warpAffine(cv_image, matrix, (width, height))
 
-      roi = self.get_roi(cv_image)
-      h, w, c = roi.shape
-      #print(h, w)
+    #   roi = self.get_roi(cv_image)
+    #   h, w, c = roi.shape
+    #   #print(h, w)
 
-      #print(np.sum(roi[0:h, 0:w]))
-      #cv2.imshow('roi', roi)
-      cv2.waitKey(10)
-      if(np.sum(roi[0:h, 0:w]) != 0):
-        semantic_image = roi.copy()
-        black_img = np.zeros([semantic_image.shape[0],200,3],dtype=np.uint8)
-        semantic_image = np.concatenate((semantic_image, black_img), axis=1)
+    #   #print(np.sum(roi[0:h, 0:w]))
+    #   #cv2.imshow('roi', roi)
+    #   cv2.waitKey(10)
+    #   if(np.sum(roi[0:h, 0:w]) != 0):
+    #     semantic_image = roi.copy()
+    #     black_img = np.zeros([semantic_image.shape[0],200,3],dtype=np.uint8)
+    #     semantic_image = np.concatenate((semantic_image, black_img), axis=1)
 
-        roi_1, roi_2, roi_3, pts_each = self.get_each_roi(roi)
-        #cv2.imshow("roi_1", roi_1)
-        #cv2.imshow("roi_2", roi_2)
-        #cv2.imshow("roi_3", roi_3)
+    #     roi_1, roi_2, roi_3, pts_each = self.get_each_roi(roi)
+    #     #cv2.imshow("roi_1", roi_1)
+    #     #cv2.imshow("roi_2", roi_2)
+    #     #cv2.imshow("roi_3", roi_3)
         
-        vol = 0
-        semantic_image, vol_array = self.detect_volume(roi_1, roi_2, roi_3, semantic_image, pts_each)
-        print(vol_array)
+    #     vol = 0
+    #     semantic_image, vol_array = self.detect_volume(roi_1, roi_2, roi_3, semantic_image, pts_each)
+    #     print(vol_array)
 
-        #print(str_rt_vol)
+    #     #print(str_rt_vol)
 
-        if(vol_array[0] == -1):
-          self.str_rt_vol = "X"
-        else:
-          self.str_rt_vol = str(vol_array[0])
+    #     if(vol_array[0] == -1):
+    #       self.str_rt_vol = "X"
+    #     else:
+    #       self.str_rt_vol = str(vol_array[0])
 
-        if(vol_array[1] == -1):
-          self.str_rt_vol = self.str_rt_vol + "X"
-        else:
-          self.str_rt_vol = self.str_rt_vol + str(vol_array[1])
+    #     if(vol_array[1] == -1):
+    #       self.str_rt_vol = self.str_rt_vol + "X"
+    #     else:
+    #       self.str_rt_vol = self.str_rt_vol + str(vol_array[1])
 
-        if(vol_array[2] == -1):
-          self.str_rt_vol = self.str_rt_vol + "X"
-        else:
-          self.str_rt_vol = self.str_rt_vol + str(vol_array[2])
+    #     if(vol_array[2] == -1):
+    #       self.str_rt_vol = self.str_rt_vol + "X"
+    #     else:
+    #       self.str_rt_vol = self.str_rt_vol + str(vol_array[2])
 
 
-        if((vol_array[0] != -1) and (vol_array[1] != -1) and (vol_array[2] != -1)):
-          vol = vol_array[0]*100 + vol_array[1]*10 + vol_array[2]
-        else:
-          vol = None
-        #print(vol_array)
-        if(vol != None):
+    #     if((vol_array[0] != -1) and (vol_array[1] != -1) and (vol_array[2] != -1)):
+    #       vol = vol_array[0]*100 + vol_array[1]*10 + vol_array[2]
+    #     else:
+    #       vol = None
+    #     #print(vol_array)
+    #     if(vol != None):
 
-          tracked_vol = self.track_volume(vol)
-          #print(tracked_vol)
+    #       tracked_vol = self.track_volume(vol)
+    #       #print(tracked_vol)
 
-          if(tracked_vol != None):
-            # reset
-            if(abs(tracked_vol - vol) > 3):
-              self.result_cnt = []
-              self.init_vol_flag = False
-              self.pre_vol_array = [-1, -1, -1]
+    #       if(tracked_vol != None):
+    #         # reset
+    #         if(abs(tracked_vol - vol) > 3):
+    #           self.result_cnt = []
+    #           self.init_vol_flag = False
+    #           self.pre_vol_array = [-1, -1, -1]
             
-            #self.str_valid_vol = str_result
-            self.str_valid_vol = str(self.pre_vol).zfill(3)
-            self.str_predicted_val_1 = str(tracked_vol-1).zfill(3)
-            self.str_predicted_val_2 = str(tracked_vol).zfill(3)
-            self.str_predicted_val_3 = str(tracked_vol+1).zfill(3)
+    #         #self.str_valid_vol = str_result
+    #         self.str_valid_vol = str(self.pre_vol).zfill(3)
+    #         self.str_predicted_val_1 = str(tracked_vol-1).zfill(3)
+    #         self.str_predicted_val_2 = str(tracked_vol).zfill(3)
+    #         self.str_predicted_val_3 = str(tracked_vol+1).zfill(3)
 
-            self.pub.publish(tracked_vol)
+    #         self.pub.publish(tracked_vol)
 
-          #cv2.waitKey(3)
-        # Input Semantic Info
-        str_valid_val = "valid value: " + self.str_valid_vol
-        str_rt_val = "real-time value: " + self.str_rt_vol       
-        str_predicted_val = "predicted value: "
-        str_target_val = "target value: " + str(self.goal_vol)
-        str_state = ""
-        if(self.state == 1):
-          str_state = "MOVE UP"
-        elif(self.state == 2):
-          str_state = "MOVE DOWN"
-        elif(self.state == 3):
-          str_state = "STOP"
+    #       #cv2.waitKey(3)
+    #     # Input Semantic Info
+    #     str_valid_val = "valid value: " + self.str_valid_vol
+    #     str_rt_val = "real-time value: " + self.str_rt_vol       
+    #     str_predicted_val = "predicted value: "
+    #     str_target_val = "target value: " + str(self.goal_vol)
+    #     str_state = ""
+    #     if(self.state == 1):
+    #       str_state = "MOVE UP"
+    #     elif(self.state == 2):
+    #       str_state = "MOVE DOWN"
+    #     elif(self.state == 3):
+    #       str_state = "STOP"
 
-        str_state_full = "state: " + str_state
+    #     str_state_full = "state: " + str_state
 
-        cv2.putText(semantic_image,str_valid_val,(130, 20),0,0.5,(255,255,255),1)
-        cv2.putText(semantic_image,str_rt_val,(130, 70),0,0.5,(255,255,255),1)
-        cv2.putText(semantic_image,str_predicted_val,(130, 120),0,0.5,(255,255,255),1)
-        cv2.putText(semantic_image,self.str_predicted_val_1,(265, 140),0,0.5,(255,255,255),1)
-        cv2.putText(semantic_image,self.str_predicted_val_2,(265, 160),0,0.5,(255,255,255),1)
-        cv2.putText(semantic_image,self.str_predicted_val_3,(265, 180),0,0.5,(255,255,255),1)
-        cv2.putText(semantic_image,str_target_val,(130, 210),0,0.5,(255,255,255),1)
-        cv2.putText(semantic_image,str_state_full,(130, 260),0,0.5,(255,255,255),1)
+    #     cv2.putText(semantic_image,str_valid_val,(130, 20),0,0.5,(255,255,255),1)
+    #     cv2.putText(semantic_image,str_rt_val,(130, 70),0,0.5,(255,255,255),1)
+    #     cv2.putText(semantic_image,str_predicted_val,(130, 120),0,0.5,(255,255,255),1)
+    #     cv2.putText(semantic_image,self.str_predicted_val_1,(265, 140),0,0.5,(255,255,255),1)
+    #     cv2.putText(semantic_image,self.str_predicted_val_2,(265, 160),0,0.5,(255,255,255),1)
+    #     cv2.putText(semantic_image,self.str_predicted_val_3,(265, 180),0,0.5,(255,255,255),1)
+    #     cv2.putText(semantic_image,str_target_val,(130, 210),0,0.5,(255,255,255),1)
+    #     cv2.putText(semantic_image,str_state_full,(130, 260),0,0.5,(255,255,255),1)
 
-        # publish semantic image message
-        self.semantic_image_pub.publish(self.bridge.cv2_to_imgmsg(semantic_image, "bgr8"))
+    #     # publish semantic image message
+    #     self.semantic_image_pub.publish(self.bridge.cv2_to_imgmsg(semantic_image, "bgr8"))
 
-        
+    # except CvBridgeError as e:
+    #   print(e)
 
-    except CvBridgeError as e:
-      print(e)
 
-  
+  def estimate_volume(self, data):
+    cv_image = self.convert_to_cv_image(data)
+    if(cv_image is None): return
+
+    draft_roi_img = self.get_draft_roi(cv_image)
+    if(draft_roi_img is None): return
+
+    big_hsv_img, big_h_img, big_s_img, big_v_img = self.get_hsv(draft_roi_img)
+    if((big_h_img is None) or (big_s_img is None) or (big_v_img is None)): return
+
+    big_bin_img = self.get_binary(big_h_img)
+    if(big_bin_img is None): return
+
+    big_noise_removed_bin_img, big_mask_bin_img = self.remove_noise(big_bin_img)
+
+    if(self.debug_flag):
+      self.img_pub.publish(self.bridge.cv2_to_imgmsg(cv_image, "bgr8"))
+      self.draft_roi_img_pub.publish(self.bridge.cv2_to_imgmsg(draft_roi_img, "bgr8"))
+      self.big_hsv_img_pub.publish(self.bridge.cv2_to_imgmsg(big_hsv_img, "bgr8"))
+      self.big_h_img_pub.publish(self.bridge.cv2_to_imgmsg(big_h_img, "mono8"))
+      self.big_s_img_pub.publish(self.bridge.cv2_to_imgmsg(big_s_img, "mono8"))
+      self.big_v_img_pub.publish(self.bridge.cv2_to_imgmsg(big_v_img, "mono8"))
+      self.big_bin_img_pub.publish(self.bridge.cv2_to_imgmsg(big_bin_img, "mono8"))
+      self.big_noise_removed_bin_img_pub.publish(self.bridge.cv2_to_imgmsg(big_noise_removed_bin_img, "mono8"))
+      self.big_mask_bin_img_pub.publish(self.bridge.cv2_to_imgmsg(big_mask_bin_img, "mono8"))
+    pass
+
   def convert_to_cv_image(self, data):
     """!
     @brief when image callback function get the ros image message, convert it to cv_image(for opencv format)
     @details 
 
-    @param[in] bridge: bridge which can convert ros image message to cv_image
+    @param[in] data: ros image message
+    
     @note input constraints: 
     @n  - none
 
-    @param[in] data: ros image message
     @note output constraints: 
     @n                        - cv_image should not be empty 
     @n                        - cv_image should be sized 640 x 480 
@@ -196,22 +242,215 @@ class OCR:
     try:
       cv_image = self.bridge.imgmsg_to_cv2(data, "bgr8")
       if cv_image is None:
-        raise Exception('cv_image has no image.')
+        raise NoImageError
 
       h, w, c = cv_image.shape
       if((h != 480) or (w != 640)):
-        string = "size of cv_image is not 640x480. the size of cv_image is " + str(w) + "x" + str(h) + "."
-        raise Exception(string)
+        raise ImageSizeError(w, h)
 
       if (c != 3):
-        string = "channel of cv_image is not 3(rgb color image). the channel of cv_image is " + str(c) + "."
-        raise Exception(string)
+        raise ColorImageError(c)
 
       cv_image = cv2.flip(cv_image,-1)
       return cv_image
     except Exception as e:
-      print('error is occured.', e)
+      print(e)
       return None
+
+  def get_draft_roi(self, img):
+    """!
+    @brief to avoid complexity of image processing, we get only draft roi.
+    @details 
+
+    @param[in] img: opencv format image
+    
+    @note input constraints: 
+    @n - image should not be empty 
+    @n - image should be sized 640 x 480 
+    @n - image should be color image (3 channel)
+
+    @note output constraints: 
+    @n - draft_roi_image should not be empty 
+    @n - draft_roi_image should be color image (3 channel)
+
+    @return draft_roi_img: roi image which is given size manually, this approach sould be modificated in future
+    """
+    try:
+      # input error check
+      if img is None:
+        raise NoImageError
+      h, w, c = img.shape
+      if((h != 480) or (w != 640)):
+        raise ImageSizeError(w, h)
+      if (c != 3):
+        raise ColorImageError(c)
+
+      # doing
+      draft_roi_img = img[int(h*(1/20)):int(h*(16/20)), int(w*(6/20)):int(w*(13/20))]
+
+      # output error check
+      if draft_roi_img is None:
+        raise NoImageError
+      h, w, c = draft_roi_img.shape
+      if (c != 3):
+        raise ColorImageError(c)
+
+      # return
+      return draft_roi_img
+
+    except Exception as e:
+      print(e)
+      return None
+    pass
+
+  def get_hsv(self, img):
+    """!
+    @brief for detecting marker, we pre-process image to hsv.
+    @details the function return h, s, v image. for detecting marker, we're gonna use h image cause color of marker is yellow and it's opposite of micropipette body color(body color is indigo)
+
+    @param[in] img: draft_roi_img should be input
+    
+    @note input constraints: 
+    @n - image should not be empty
+    @n - image should be color image (3 channel)
+
+    @note output constraints: 
+    @n - h_image should not be empty 
+    @n - h_image should be mono image (1 channel)
+    @n - s_image should not be empty 
+    @n - s_image should be mono image (1 channel)
+    @n - v_image should not be empty 
+    @n - v_image should be mono image (1 channel)
+
+    @return h_img, s_img, v_img: all images sould be return
+    """
+    try:
+      # input error check
+      if img is None:
+        raise NoImageError
+      h, w, c = img.shape
+      if (c != 3):
+        raise ColorImageError(c)
+
+      # doing
+      hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+      h_img, s_img, v_img = cv2.split(hsv)
+      
+      # output error check
+      if (h_img is None) or (s_img is None) or (v_img is None):
+        raise NoImageError
+      if (h_img.dtype != 'uint8') or (s_img.dtype != 'uint8') or (v_img.dtype != 'uint8'):
+        raise MonoImageError(h_img.dtype)
+
+      # return
+      return hsv, h_img, s_img, v_img
+
+    except Exception as e:
+      print(e)
+      return None, None, None
+    pass
+
+  def get_binary(self, img):
+    """!
+    @brief before getting contour from image, we should convert gray image to binary image
+    @details it is important to use apropriate image format(h or s or v), and set apropriate threshold value.
+
+    @param[in] img: h or s or v image
+    
+    @note input constraints: 
+    @n - image should not be empty
+    @n - image should be gray image (1 channel)
+
+    @note output constraints: 
+    @n - binary_image should not be empty 
+    @n - binary_image should be binary image (1 channel)
+
+    @return bin_img: output binary image
+    """
+    try:
+      # input error check
+      if img is None:
+        raise NoImageError
+      if (img.dtype != 'uint8'):
+        raise MonoImageError(c)
+
+      # doing
+      blur = cv2.GaussianBlur(img,(11,11),0)
+      ret, bin_img = cv2.threshold(blur, 0, 255, cv2.THRESH_BINARY_INV+cv2.THRESH_OTSU)
+
+      # output error check
+      if (bin_img is None):
+        raise NoImageError
+      if (bin_img.dtype != 'uint8'):
+        raise MonoImageError(bin_img.dtype)
+
+      # return
+      return bin_img
+
+    except Exception as e:
+      print(e)
+      return None
+    pass
+
+  def remove_noise(self, img):
+    """!
+    @brief remove unnessary contour, so we prevent error and focus on important data
+    @details this method reffered from "https://pyimagesearch.com/2015/02/09/removing-contours-image-using-python-opencv/"
+
+    @param[in] img: binary image
+    
+    @note input constraints: 
+    @n - image should not be empty
+    @n - image should be binary image (1 channel)
+
+    @note output constraints: 
+    @n - noise_removed_binary_image should not be empty 
+    @n - noise_removed_binary_image should be binary image (1 channel)
+
+    @return noise_removed_bin_img: output binary image which the noise is removed
+    """
+    try:
+      # input error check
+      if img is None:
+        raise NoImageError
+      if (img.dtype != 'uint8'):
+        raise MonoImageError(c)
+
+      # doing
+      # Removing noise
+      # https://pyimagesearch.com/2015/02/09/removing-contours-image-using-python-opencv/
+
+      cnts = cv2.findContours(img,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
+      cnts = imutils.grab_contours(cnts)
+      mask = np.ones(img.shape[:2], dtype="uint8") * 255
+
+      # loop over the contours
+      for c in cnts:
+        [x,y,w,h] = cv2.boundingRect(c)
+        # if the contour is bad, draw it on the mask
+        if cv2.contourArea(c)<1000 or cv2.contourArea(c)>2000 \
+          or h<20 or h>60 or w<20 or w>60:
+          cv2.drawContours(mask, [c], -1, 0, -1)
+        
+      # remove the contours from the image and show the resulting images
+      noise_removed_bin_img = cv2.bitwise_and(img, img, mask=mask)
+      #cv2.imshow("Mask", mask)
+      #cv2.imshow("After", rng)
+
+      # output error check
+      if (noise_removed_bin_img is None):
+        raise NoImageError
+      if (noise_removed_bin_img.dtype != 'uint8'):
+        raise MonoImageError(noise_removed_bin_img.dtype)
+
+      # return
+      return noise_removed_bin_img, mask
+
+    except Exception as e:
+      print(e)
+      return None
+    pass
+
 
   def is_contour_bad(self, c):
 	# approximate the contour
@@ -284,7 +523,7 @@ class OCR:
         pts[pts_cnt] = [cX, cY]
         pts_cnt += 1
     
-      cv2.imshow("marked_img", marked_img)
+      #cv2.imshow("marked_img", marked_img)
 
     # perspective transform
     # https://minimin2.tistory.com/135
@@ -568,7 +807,28 @@ class OCR:
         
 
 
-      
+class NoImageError(Exception):
+  """there is no image"""
+  pass
+
+class ImageSizeError(Exception):
+    def __init__(self, w, h):
+      self.msg = "size of image is not 640x480. the size of image is " + str(w) + "x" + str(h) + "."
+    def __str__(self):
+      return self.msg
+
+class ColorImageError(Exception):
+    def __init__(self, c):
+      self.msg = "channel of image is not 3(rgb color image). the channel of image is " + str(c) + "."
+    def __str__(self):
+      return self.msg
+
+class MonoImageError(Exception):
+    def __init__(self, c):
+      self.msg = "channel of image is not 1(mono gray image). the channel of image is " + str(c) + "."
+    def __str__(self):
+      return self.msg
+
 
 def main(args):
   rospy.init_node('ocr_node', anonymous=True)
