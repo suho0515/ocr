@@ -54,7 +54,7 @@ class OCR:
     ## small binary image publisher. the topic message is "small_binary_image".
     self.small_bin_img_pub = rospy.Publisher("small_binary_img",Image, queue_size=1)
     ## small binary image publisher. the topic message is "small_binary_image".
-    self.ranged_img_pub = rospy.Publisher("ranged_img",Image, queue_size=1)
+    self.big_ranged_img_pub = rospy.Publisher("big_ranged_img",Image, queue_size=1)
     ## each_roi_1 image publisher. the topic message is "each_roi_1_image".
     self.each_roi_img_1_pub = rospy.Publisher("each_roi_image_1",Image, queue_size=1)
     ## each_roi_2 image publisher. the topic message is "each_roi_2_image".
@@ -109,54 +109,44 @@ class OCR:
     self.each_small_img_2_pub = rospy.Publisher("each_small_image_2",Image, queue_size=1)
     ## each small image publisher. the topic message is "each_small_image".
     self.each_small_img_3_pub = rospy.Publisher("each_small_image_3",Image, queue_size=1)
-    
-    
-
-
+    ## it is real-time volume publisher
+    self.rt_vol_pub = rospy.Publisher("realtime_volume",Int16MultiArray, queue_size=1)
+    ## it is real-time volume publisher
+    self.valid_vol_pub = rospy.Publisher("valid_volume",Int8, queue_size=1)
+    ## semantic image publisher. which have various information
+    self.semantic_img_pub = rospy.Publisher("semantic_image",Image, queue_size=1)
+    ## it is center difference percentage publisher
+    self.center_diff_percentage_pub = rospy.Publisher("center_difference_percentage",Int8, queue_size=1)
 
     # Variables
     ## self.debug_flag: if debug_flag is true, all debug topic message would published. if debug_flag is false, only necessary topic message would published.
     self.debug_flag = True
-
-
-    self.state_sub = rospy.Subscriber("controller_state",Int8,self.stateCallback)
-
-
-
+    ## we use this member variable when approach to dataset
+    self.num = 0
+    ## detected real-time volume
+    self.rt_vol_msg = Int16MultiArray()
+    self.rt_vol_msg.data = [-1, -1, -1]
+    ## we use this variable when we visualize the real-time volume 
+    self.str_rt_vol = [None, None, None]
+    ## integer real-time volume
+    self.int_rt_vol = -1
+    ## detected valid volume
+    self.valid_vol_msg = Int8()
+    self.valid_vol_msg.data = -1
+    ## list which will append volume
+    self.vol_list = []
+    ## we use this variable when we visualize the real-time volume 
+    self.str_valid_vol = ['X', 'X', 'X']
+    ## trained model directory
     model_dir = '/root/catkin_ws/src/ocr/model/knn_trained_model.xml'
+    ## knn model
     self.model = cv2.ml.KNearest_create()
     self.model = cv2.ml.KNearest_load(model_dir)
+    ## center percentage
+    self.center_percentage = 0
+    ## center different percentage message
+    self.center_diff_percentage_msg = Int8()
 
-    self.result_cnt = []
-    self.max_param = 3
-    self.result_max = -1
-    self.pre_vol = -1
-    self.pre_vol_array = [-1, -1, -1]
-    self.str_valid_vol = ""
-    self.str_predicted_val_1 = ""
-    self.str_predicted_val_2 = ""
-    self.str_predicted_val_3 = ""
-    self.str_rt_vol = ""
-    self.init_vol_flag = False
-
-    self.pub = rospy.Publisher('volume', Int8, queue_size=1)
-    self.ctr_cmd_sub = rospy.Subscriber("command", Int16MultiArray, self.ctrCmdCallback)
-
-    
-    self.semantic_image_pub = rospy.Publisher("semantic_image",Image, queue_size=1)
-
-    self.state = -1
-    self.goal_vol = -1
-    
-  def ctrCmdCallback(self,cmd):
-    self.goal_vol = cmd.data[5]
-    print(cmd.data[5])
-    print(self.goal_vol)
-    
-
-  def stateCallback(self,data):
-    self.state = data.data
-    #print(self.state)
 
   def callback(self,data):
     self.result = [-1, -1, -1]
@@ -166,250 +156,241 @@ class OCR:
     except CvBridgeError as e:
       print(e)
 
-    # try:
-    #   height, width, channel = cv_image.shape
-    #   matrix = cv2.getRotationMatrix2D((width/2, height/2), 0, 1)
-    #   dst = cv2.warpAffine(cv_image, matrix, (width, height))
-
-    #   roi = self.get_roi(cv_image)
-    #   h, w, c = roi.shape
-    #   #print(h, w)
-
-    #   #print(np.sum(roi[0:h, 0:w]))
-    #   #cv2.imshow('roi', roi)
-    #   cv2.waitKey(10)
-    #   if(np.sum(roi[0:h, 0:w]) != 0):
-    #     semantic_image = roi.copy()
-    #     black_img = np.zeros([semantic_image.shape[0],200,3],dtype=np.uint8)
-    #     semantic_image = np.concatenate((semantic_image, black_img), axis=1)
-
-    #     roi_1, roi_2, roi_3, pts_each = self.get_each_roi(roi)
-    #     #cv2.imshow("roi_1", roi_1)
-    #     #cv2.imshow("roi_2", roi_2)
-    #     #cv2.imshow("roi_3", roi_3)
-        
-    #     vol = 0
-    #     semantic_image, vol_array = self.detect_volume(roi_1, roi_2, roi_3, semantic_image, pts_each)
-    #     print(vol_array)
-
-    #     #print(str_rt_vol)
-
-    #     if(vol_array[0] == -1):
-    #       self.str_rt_vol = "X"
-    #     else:
-    #       self.str_rt_vol = str(vol_array[0])
-
-    #     if(vol_array[1] == -1):
-    #       self.str_rt_vol = self.str_rt_vol + "X"
-    #     else:
-    #       self.str_rt_vol = self.str_rt_vol + str(vol_array[1])
-
-    #     if(vol_array[2] == -1):
-    #       self.str_rt_vol = self.str_rt_vol + "X"
-    #     else:
-    #       self.str_rt_vol = self.str_rt_vol + str(vol_array[2])
-
-
-    #     if((vol_array[0] != -1) and (vol_array[1] != -1) and (vol_array[2] != -1)):
-    #       vol = vol_array[0]*100 + vol_array[1]*10 + vol_array[2]
-    #     else:
-    #       vol = None
-    #     #print(vol_array)
-    #     if(vol != None):
-
-    #       tracked_vol = self.track_volume(vol)
-    #       #print(tracked_vol)
-
-    #       if(tracked_vol != None):
-    #         # reset
-    #         if(abs(tracked_vol - vol) > 3):
-    #           self.result_cnt = []
-    #           self.init_vol_flag = False
-    #           self.pre_vol_array = [-1, -1, -1]
-            
-    #         #self.str_valid_vol = str_result
-    #         self.str_valid_vol = str(self.pre_vol).zfill(3)
-    #         self.str_predicted_val_1 = str(tracked_vol-1).zfill(3)
-    #         self.str_predicted_val_2 = str(tracked_vol).zfill(3)
-    #         self.str_predicted_val_3 = str(tracked_vol+1).zfill(3)
-
-    #         self.pub.publish(tracked_vol)
-
-    #       #cv2.waitKey(3)
-    #     # Input Semantic Info
-    #     str_valid_val = "valid value: " + self.str_valid_vol
-    #     str_rt_val = "real-time value: " + self.str_rt_vol       
-    #     str_predicted_val = "predicted value: "
-    #     str_target_val = "target value: " + str(self.goal_vol)
-    #     str_state = ""
-    #     if(self.state == 1):
-    #       str_state = "MOVE UP"
-    #     elif(self.state == 2):
-    #       str_state = "MOVE DOWN"
-    #     elif(self.state == 3):
-    #       str_state = "STOP"
-
-    #     str_state_full = "state: " + str_state
-
-    #     cv2.putText(semantic_image,str_valid_val,(130, 20),0,0.5,(255,255,255),1)
-    #     cv2.putText(semantic_image,str_rt_val,(130, 70),0,0.5,(255,255,255),1)
-    #     cv2.putText(semantic_image,str_predicted_val,(130, 120),0,0.5,(255,255,255),1)
-    #     cv2.putText(semantic_image,self.str_predicted_val_1,(265, 140),0,0.5,(255,255,255),1)
-    #     cv2.putText(semantic_image,self.str_predicted_val_2,(265, 160),0,0.5,(255,255,255),1)
-    #     cv2.putText(semantic_image,self.str_predicted_val_3,(265, 180),0,0.5,(255,255,255),1)
-    #     cv2.putText(semantic_image,str_target_val,(130, 210),0,0.5,(255,255,255),1)
-    #     cv2.putText(semantic_image,str_state_full,(130, 260),0,0.5,(255,255,255),1)
-
-    #     # publish semantic image message
-    #     self.semantic_image_pub.publish(self.bridge.cv2_to_imgmsg(semantic_image, "bgr8"))
-
-    # except CvBridgeError as e:
-    #   print(e)
-
-
   def estimate_volume(self, data):
+    """!
+    @brief we do all process in this function
+    @details 
+
+    @param[in] data: ros image message
+    
+    @note input constraints: 
+    @n - none
+
+    @note output constraints: 
+    @n - none
+
+    @return none
+    """
     cv_image = self.convert_to_cv_image(data)
     if(cv_image is None): return
+    else:
+      if(self.debug_flag):
+        self.img_pub.publish(self.bridge.cv2_to_imgmsg(cv_image, "bgr8"))
 
     draft_roi_img = self.get_draft_roi(cv_image)
     if(draft_roi_img is None): return
+    else:
+      if(self.debug_flag):
+        self.draft_roi_img_pub.publish(self.bridge.cv2_to_imgmsg(draft_roi_img, "bgr8"))
 
     big_hsv_img, big_h_img, big_s_img, big_v_img = self.get_hsv(draft_roi_img)
     if((big_h_img is None) or (big_s_img is None) or (big_v_img is None)): return
+    else:
+      if(self.debug_flag):
+        self.big_hsv_img_pub.publish(self.bridge.cv2_to_imgmsg(big_hsv_img, "bgr8"))
+        self.big_h_img_pub.publish(self.bridge.cv2_to_imgmsg(big_h_img, "mono8"))
+        self.big_s_img_pub.publish(self.bridge.cv2_to_imgmsg(big_s_img, "mono8"))
+        self.big_v_img_pub.publish(self.bridge.cv2_to_imgmsg(big_v_img, "mono8"))
 
-    big_bin_img = self.get_binary(big_h_img, 50)
+    big_ranged_img = self.get_range(big_hsv_img, 0,100,0,40,255,255)
+    if(big_ranged_img is None): return
+    else:
+      if(self.debug_flag):
+        self.big_ranged_img_pub.publish(self.bridge.cv2_to_imgmsg(big_ranged_img, "mono8"))
+
+    big_bin_img = self.get_binary(big_h_img, 40)
     if(big_bin_img is None): return
+    else:
+      if(self.debug_flag):
+        self.big_bin_img_pub.publish(self.bridge.cv2_to_imgmsg(big_bin_img, "mono8"))
 
-    big_noise_removed_bin_img, big_mask_bin_img = self.remove_noise(big_bin_img, 800, 2000, 20, 60, 20, 60, use_morph = True)
+    big_noise_removed_bin_img, big_mask_bin_img = self.remove_noise(big_ranged_img, 800, 2000, 20, 60, 20, 60, use_morph = False)
     if(big_noise_removed_bin_img is None): return
+    else:
+      if(self.debug_flag):
+        self.big_noise_removed_bin_img_pub.publish(self.bridge.cv2_to_imgmsg(big_noise_removed_bin_img, "mono8"))
+        self.big_mask_bin_img_pub.publish(self.bridge.cv2_to_imgmsg(big_mask_bin_img, "mono8"))
 
     marker_img, marker_pts = self.detect_marker(big_noise_removed_bin_img)
     if(marker_img is None): return
+    else:
+      if(self.debug_flag):
+        self.marker_img_pub.publish(self.bridge.cv2_to_imgmsg(marker_img, "bgr8"))
 
     trans_img = self.perspective_transform(draft_roi_img, marker_pts)
     if(trans_img is None): return
+    else:
+      if(self.debug_flag):
+        self.trans_img_pub.publish(self.bridge.cv2_to_imgmsg(trans_img, "bgr8"))
 
     each_roi_img_1, each_roi_img_2, each_roi_img_3, each_roi_pts = self.get_each_roi(trans_img)
     if((each_roi_img_1 is None) or (each_roi_img_2 is None) or (each_roi_img_3 is None)): return
+    else:
+      if(self.debug_flag):
+        self.each_roi_img_1_pub.publish(self.bridge.cv2_to_imgmsg(each_roi_img_1, "bgr8"))
+        self.each_roi_img_2_pub.publish(self.bridge.cv2_to_imgmsg(each_roi_img_2, "bgr8"))
+        self.each_roi_img_3_pub.publish(self.bridge.cv2_to_imgmsg(each_roi_img_3, "bgr8"))
 
     each_shadow_removed_img_1 = self.remove_shadow(each_roi_img_1)
     if(each_shadow_removed_img_1 is None): return
-
+    else:
+      if(self.debug_flag):
+        self.each_shadow_removed_img_1_pub.publish(self.bridge.cv2_to_imgmsg(each_shadow_removed_img_1, "bgr8"))
+      
     each_shadow_removed_img_2 = self.remove_shadow(each_roi_img_2)
     if(each_shadow_removed_img_1 is None): return
+    else:
+      if(self.debug_flag):
+        self.each_shadow_removed_img_2_pub.publish(self.bridge.cv2_to_imgmsg(each_shadow_removed_img_2, "bgr8"))
 
     each_shadow_removed_img_3 = self.remove_shadow(each_roi_img_3)
     if(each_shadow_removed_img_1 is None): return
+    else:
+      if(self.debug_flag):
+        self.each_shadow_removed_img_3_pub.publish(self.bridge.cv2_to_imgmsg(each_shadow_removed_img_3, "bgr8"))
 
     each_bg_removed_img_1 = self.remove_background(each_shadow_removed_img_1)
     if(each_bg_removed_img_1 is None): return
-
+    else:
+      if(self.debug_flag):
+        self.each_bg_removed_img_1_pub.publish(self.bridge.cv2_to_imgmsg(each_bg_removed_img_1, "bgr8"))
+      
     each_bg_removed_img_2 = self.remove_background(each_shadow_removed_img_2)
     if(each_bg_removed_img_2 is None): return
+    else:
+      if(self.debug_flag):
+        self.each_bg_removed_img_2_pub.publish(self.bridge.cv2_to_imgmsg(each_bg_removed_img_2, "bgr8"))
 
     each_bg_removed_img_3 = self.remove_background(each_shadow_removed_img_3)
     if(each_bg_removed_img_3 is None): return
+    else:
+      if(self.debug_flag):
+        self.each_bg_removed_img_3_pub.publish(self.bridge.cv2_to_imgmsg(each_bg_removed_img_3, "bgr8"))
 
     each_bin_img_1 = self.get_binary(each_bg_removed_img_1, 140)
     if(each_bin_img_1 is None): return
-
+    else:
+      if(self.debug_flag):
+        self.each_bin_img_1_pub.publish(self.bridge.cv2_to_imgmsg(each_bin_img_1, "mono8"))
+      
     each_bin_img_2 = self.get_binary(each_bg_removed_img_2, 140)
     if(each_bin_img_2 is None): return
+    else:
+      if(self.debug_flag):
+        self.each_bin_img_2_pub.publish(self.bridge.cv2_to_imgmsg(each_bin_img_2, "mono8"))
 
     each_bin_img_3 = self.get_binary(each_bg_removed_img_3, 140)
     if(each_bin_img_3 is None): return
+    else:
+      if(self.debug_flag):
+        self.each_bin_img_3_pub.publish(self.bridge.cv2_to_imgmsg(each_bin_img_3, "mono8"))
 
     each_noise_removed_img_1, each_mask_img_1 = self.remove_noise(each_bin_img_1, 100, 2000, 0, 40, 0, 40, use_morph = False)
     if(each_noise_removed_img_1 is None): return
-
+    else:
+      if(self.debug_flag):
+        self.each_noise_removed_img_1_pub.publish(self.bridge.cv2_to_imgmsg(each_noise_removed_img_1, "mono8"))
+        self.each_mask_img_1_pub.publish(self.bridge.cv2_to_imgmsg(each_mask_img_1, "mono8"))
+      
     each_noise_removed_img_2, each_mask_img_2 = self.remove_noise(each_bin_img_2, 100, 2000, 0, 40, 0, 40, use_morph = False)
     if(each_noise_removed_img_2 is None): return
+    else:
+      if(self.debug_flag):
+        self.each_noise_removed_img_2_pub.publish(self.bridge.cv2_to_imgmsg(each_noise_removed_img_2, "mono8"))
+        self.each_mask_img_2_pub.publish(self.bridge.cv2_to_imgmsg(each_mask_img_2, "mono8"))
 
     each_noise_removed_img_3, each_mask_img_3 = self.remove_noise(each_bin_img_3, 100, 2000, 0, 40, 0, 40, use_morph = False)
     if(each_noise_removed_img_3 is None): return
+    else:
+      if(self.debug_flag):
+        self.each_noise_removed_img_3_pub.publish(self.bridge.cv2_to_imgmsg(each_noise_removed_img_3, "mono8"))
+        self.each_mask_img_3_pub.publish(self.bridge.cv2_to_imgmsg(each_mask_img_3, "mono8"))
 
-    each_small_img_1 = self.get_small_image(each_noise_removed_img_1)
-    if(each_small_img_1 is None): return
+    bounding_rect_list = []
 
-    each_small_img_2 = self.get_small_image(each_noise_removed_img_2)
-    if(each_small_img_2 is None): return
+    each_small_img_1, bounding_rect_1 = self.get_small_image(each_noise_removed_img_1)
+    if(each_small_img_1 is None):
+      self.rt_vol_msg.data[0] = -1
+      self.str_rt_vol[0] = "X"
+    else:
+      if(self.debug_flag):
+        self.each_small_img_1_pub.publish(self.bridge.cv2_to_imgmsg(each_small_img_1, "mono8"))
+    bounding_rect_list.append(bounding_rect_1)
 
-    each_small_img_3 = self.get_small_image(each_noise_removed_img_3)
-    if(each_small_img_3 is None): return
+    each_small_img_2, bounding_rect_2 = self.get_small_image(each_noise_removed_img_2)
+    if(each_small_img_2 is None): 
+      self.rt_vol_msg.data[1] = -1
+      self.str_rt_vol[1] = "X"
+    else:
+      if(self.debug_flag):
+        self.each_small_img_2_pub.publish(self.bridge.cv2_to_imgmsg(each_small_img_2, "mono8"))
+    bounding_rect_list.append(bounding_rect_2)
 
-    # each_close_img_1 = self.get_morpholgy_close(each_bg_removed_img_1)
-    # if(each_close_img_1 is None): return
-
-    # each_close_img_2 = self.get_morpholgy_close(each_bg_removed_img_2)
-    # if(each_close_img_2 is None): return
-
-    # each_close_img_3 = self.get_morpholgy_close(each_bg_removed_img_3)
-    # if(each_close_img_3 is None): return
-
-    # each_sharp_img_1 = self.get_sharpening(each_bg_removed_img_1)
-    # if(each_sharp_img_1 is None): return
-
-    # each_sharp_img_2 = self.get_sharpening(each_bg_removed_img_2)
-    # if(each_sharp_img_2 is None): return
-
-    # each_sharp_img_3 = self.get_sharpening(each_bg_removed_img_3)
-    # if(each_sharp_img_3 is None): return
+    each_small_img_3, bounding_rect_3 = self.get_small_image(each_noise_removed_img_3)
+    if(each_small_img_3 is None):
+      self.rt_vol_msg.data[2] = -1
+      self.str_rt_vol[2] = "X"
+    else:
+      if(self.debug_flag):
+        self.each_small_img_3_pub.publish(self.bridge.cv2_to_imgmsg(each_small_img_3, "mono8"))
+    bounding_rect_list.append(bounding_rect_3)
 
 
-    # small_hsv_img, small_h_img, small_s_img, small_v_img = self.get_hsv(shadow_removed_img)
-    # if((small_h_img is None) or (small_s_img is None) or (small_v_img is None)): return
 
-    # ranged_img = self.get_range(shadow_removed_img,0,0,0,200,200,200)
+    # name = '/root/catkin_ws/src/ocr/dataset/9/' + str(self.num) + '.jpg'
+    # cv2.imwrite(name, each_small_img_3)
 
-    # small_bin_img = self.get_binary(shadow_removed_img, 70)
-    # if(small_bin_img is None): return
+    # self.num = self.num + 1
+    # if(self.num > 1000):
+
+    #   self.num = 1000
+
+    vol_1 = self.detect_volume(each_small_img_1)
+    if(vol_1 == -1):
+      self.rt_vol_msg.data[0] = -1
+      self.str_rt_vol[0] = "X"
+    else:
+      self.rt_vol_msg.data[0] = vol_1
+      self.str_rt_vol[0] = str(vol_1)
+
+    vol_2 = self.detect_volume(each_small_img_2)
+    if(vol_2 == -1):
+      self.rt_vol_msg.data[1] = -1
+      self.str_rt_vol[1] = "X"
+    else:
+      self.rt_vol_msg.data[1] = vol_2
+      self.str_rt_vol[1] = str(vol_2)
+
+    vol_3 = self.detect_volume(each_small_img_3)
+    if(vol_3 == -1):
+      self.rt_vol_msg.data[2] = -1
+      self.str_rt_vol[2] = "X"
+    else:
+      self.rt_vol_msg.data[2] = vol_3
+      self.str_rt_vol[2] = str(vol_3)
 
     if(self.debug_flag):
-      self.img_pub.publish(self.bridge.cv2_to_imgmsg(cv_image, "bgr8"))
-      self.draft_roi_img_pub.publish(self.bridge.cv2_to_imgmsg(draft_roi_img, "bgr8"))
-      self.big_hsv_img_pub.publish(self.bridge.cv2_to_imgmsg(big_hsv_img, "bgr8"))
-      self.big_h_img_pub.publish(self.bridge.cv2_to_imgmsg(big_h_img, "mono8"))
-      self.big_s_img_pub.publish(self.bridge.cv2_to_imgmsg(big_s_img, "mono8"))
-      self.big_v_img_pub.publish(self.bridge.cv2_to_imgmsg(big_v_img, "mono8"))
-      self.big_bin_img_pub.publish(self.bridge.cv2_to_imgmsg(big_bin_img, "mono8"))
-      self.big_noise_removed_bin_img_pub.publish(self.bridge.cv2_to_imgmsg(big_noise_removed_bin_img, "mono8"))
-      self.big_mask_bin_img_pub.publish(self.bridge.cv2_to_imgmsg(big_mask_bin_img, "mono8"))
-      self.marker_img_pub.publish(self.bridge.cv2_to_imgmsg(marker_img, "bgr8"))
-      self.trans_img_pub.publish(self.bridge.cv2_to_imgmsg(trans_img, "bgr8"))
-      self.each_roi_img_1_pub.publish(self.bridge.cv2_to_imgmsg(each_roi_img_1, "bgr8"))
-      self.each_roi_img_2_pub.publish(self.bridge.cv2_to_imgmsg(each_roi_img_2, "bgr8"))
-      self.each_roi_img_3_pub.publish(self.bridge.cv2_to_imgmsg(each_roi_img_3, "bgr8"))
-      self.each_shadow_removed_img_1_pub.publish(self.bridge.cv2_to_imgmsg(each_shadow_removed_img_1, "bgr8"))
-      self.each_shadow_removed_img_2_pub.publish(self.bridge.cv2_to_imgmsg(each_shadow_removed_img_2, "bgr8"))
-      self.each_shadow_removed_img_3_pub.publish(self.bridge.cv2_to_imgmsg(each_shadow_removed_img_3, "bgr8"))
-      self.each_bg_removed_img_1_pub.publish(self.bridge.cv2_to_imgmsg(each_bg_removed_img_1, "bgr8"))
-      self.each_bg_removed_img_2_pub.publish(self.bridge.cv2_to_imgmsg(each_bg_removed_img_2, "bgr8"))
-      self.each_bg_removed_img_3_pub.publish(self.bridge.cv2_to_imgmsg(each_bg_removed_img_3, "bgr8"))
-      self.each_bin_img_1_pub.publish(self.bridge.cv2_to_imgmsg(each_bin_img_1, "mono8"))
-      self.each_bin_img_2_pub.publish(self.bridge.cv2_to_imgmsg(each_bin_img_2, "mono8"))
-      self.each_bin_img_3_pub.publish(self.bridge.cv2_to_imgmsg(each_bin_img_3, "mono8"))
-      self.each_noise_removed_img_1_pub.publish(self.bridge.cv2_to_imgmsg(each_noise_removed_img_1, "mono8"))
-      self.each_noise_removed_img_2_pub.publish(self.bridge.cv2_to_imgmsg(each_noise_removed_img_2, "mono8"))
-      self.each_noise_removed_img_3_pub.publish(self.bridge.cv2_to_imgmsg(each_noise_removed_img_3, "mono8"))
-      self.each_mask_img_1_pub.publish(self.bridge.cv2_to_imgmsg(each_mask_img_1, "mono8"))
-      self.each_mask_img_2_pub.publish(self.bridge.cv2_to_imgmsg(each_mask_img_2, "mono8"))
-      self.each_mask_img_3_pub.publish(self.bridge.cv2_to_imgmsg(each_mask_img_3, "mono8"))
-      self.each_small_img_1_pub.publish(self.bridge.cv2_to_imgmsg(each_small_img_1, "mono8"))
-      self.each_small_img_2_pub.publish(self.bridge.cv2_to_imgmsg(each_small_img_2, "mono8"))
-      self.each_small_img_3_pub.publish(self.bridge.cv2_to_imgmsg(each_small_img_3, "mono8"))
+      self.rt_vol_pub.publish(self.rt_vol_msg)
+
+    if((vol_1 != -1) and (vol_2 != -1) and (vol_3 != -1)):
+      self.int_rt_vol = vol_1*100 + vol_2*10 + vol_3
+    else:
+      self.int_rt_vol = -1
+    
+    if(self.int_rt_vol != -1):
+      self.valid_vol_msg.data = self.get_valid_volume(self.int_rt_vol, max_param = 1)
       
-      # self.each_close_img_1_pub.publish(self.bridge.cv2_to_imgmsg(each_close_img_1, "mono8"))
-      # self.each_close_img_2_pub.publish(self.bridge.cv2_to_imgmsg(each_close_img_2, "mono8"))
-      # self.each_close_img_3_pub.publish(self.bridge.cv2_to_imgmsg(each_close_img_3, "mono8"))
-      # self.small_hsv_img_pub.publish(self.bridge.cv2_to_imgmsg(small_hsv_img, "bgr8"))
-      # self.small_h_img_pub.publish(self.bridge.cv2_to_imgmsg(small_h_img, "mono8"))
-      # self.small_s_img_pub.publish(self.bridge.cv2_to_imgmsg(small_s_img, "mono8"))
-      # self.small_v_img_pub.publish(self.bridge.cv2_to_imgmsg(small_v_img, "mono8"))
-      # self.small_bin_img_pub.publish(self.bridge.cv2_to_imgmsg(small_bin_img, "mono8"))
-      # self.ranged_img_pub.publish(self.bridge.cv2_to_imgmsg(ranged_img, "mono8"))
-      # self.each_sharp_img_1_pub.publish(self.bridge.cv2_to_imgmsg(each_sharp_img_1, "bgr8"))
-      # self.each_sharp_img_2_pub.publish(self.bridge.cv2_to_imgmsg(each_sharp_img_2, "bgr8"))
-      # self.each_sharp_img_3_pub.publish(self.bridge.cv2_to_imgmsg(each_sharp_img_3, "bgr8"))
+    if(self.debug_flag):
+      self.valid_vol_pub.publish(self.valid_vol_msg)
+
+    semantic_img, center_diff_percentage = self.get_semantic_image(trans_img, each_roi_pts, bounding_rect_list, self.str_rt_vol, self.valid_vol_msg.data)
+    if (semantic_img is None): return
+    else:
+      if(self.debug_flag):
+        self.semantic_img_pub.publish(self.bridge.cv2_to_imgmsg(semantic_img, "bgr8"))
+        self.center_diff_percentage_msg.data = center_diff_percentage
+        self.center_diff_percentage_pub.publish(self.center_diff_percentage_msg)
+
     pass
 
   def convert_to_cv_image(self, data):
@@ -476,7 +457,7 @@ class OCR:
         raise ColorImageError(c)
 
       # doing
-      draft_roi_img = img[int(h*(1/20)):int(h*(16/20)), int(w*(6/20)):int(w*(13/20))]
+      draft_roi_img = img[int(h*(0/20)):int(h*(16/20)), int(w*(6/20)):int(w*(13/20))]
 
       # output error check
       if draft_roi_img is None:
@@ -540,7 +521,7 @@ class OCR:
       return None, None, None
     pass
 
-  def get_binary(self, img, thr):
+  def get_binary(self, img, thr, use_inv = True):
     """!
     @brief before getting contour from image, we should convert gray image to binary image
     @details it is important to use apropriate image format(h or s or v), and set apropriate threshold value.
@@ -568,8 +549,15 @@ class OCR:
 
       # doing
       #blur = cv2.GaussianBlur(img,(11,11),0)
-      ret, bin_img = cv2.threshold(img, thr, 255, cv2.THRESH_BINARY_INV)
+      bin_img = None
+      if(use_inv):
+        ret, bin_img = cv2.threshold(img, thr, 255, cv2.THRESH_BINARY_INV)
+      else:
+        ret, bin_img = cv2.threshold(img, thr, 255, cv2.THRESH_BINARY)
       #ret, bin_img = cv2.threshold(img, 0, 255, cv2.THRESH_BINARY_INV+cv2.THRESH_OTSU)
+
+      cv2.imshow("bin_img", bin_img)
+      #cv2.waitKey()
 
       # output error check
       if (bin_img is None):
@@ -880,7 +868,7 @@ class OCR:
     # doing
     pts_each = [[],[],[]]
 
-    x=45; y=60; w=40; h=40
+    x=45; y=65; w=40; h=40
     roi_1 = img[y:y+h, x:x+w]
 
     pts_each[0].append(x)
@@ -1086,15 +1074,41 @@ class OCR:
         raise MonoImageError(img.dtype)
       
       # doing
+      # cv2.imshow("input_img", img)
+      img_h, img_w = img.shape
       contours,hierarchy = cv2.findContours(img,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
-      out = np.zeros(img.shape,np.uint8)
+
       #print(len(contours))
       small_img = None
+      bounding_rect = []
       if(len(contours) == 1):
         cnt = contours[0]
         [x,y,w,h] = cv2.boundingRect(cnt)
+        bounding_rect = [x,y,w,h]
+        M = cv2.moments(cnt, False)
+        cx = int(M['m10'] / M['m00'])
+        cy = int(M['m01'] / M['m00'])
+        print(x, y, w, h)
         
-        roi_bin = img[y:y+h,x:x+w]
+        print(cx)
+        print(int(img_w*(1/4)))
+        if((cx < int(img_w*(1/4))) or (cx > int(img_w*(3/4)))):
+          raise CenterError(cx, cy)
+
+        if(w >= h):
+          h = w
+          roi_bin = img[cy-int(h/2):cy+int(h/2),x:x+w]
+        else:
+          w = h
+          #print(cx-int(w/2))
+          x_start = cx-int(w/2)
+          if(x_start < 0):
+            x_start = 0
+          roi_bin = img[y:y+h,x_start:cx+int(w/2)]
+        
+        #print(roi_bin.shape)
+        if((roi_bin.shape[0] == 0) or roi_bin.shape[1] == 0):
+          raise ResizeError(roi_bin.shape[0], roi_bin.shape[1])
         small_img = cv2.resize(roi_bin,(10,10))
         
       # output error check
@@ -1107,13 +1121,13 @@ class OCR:
         raise SmallImageSizeError(w, h)
       if (small_img.dtype != 'uint8'):
         raise MonoImageError(small_img.dtype)
-
+      
       # return
-      return small_img
+      return small_img, bounding_rect
 
     except Exception as e:
       print(e)
-      return None
+      return None, None
     pass
 
   def detect_volume(self, img):
@@ -1125,68 +1139,212 @@ class OCR:
     
     @note input constraints: 
     @n - image should not be empty
+    @n - image size should be 10x10
     @n - image should be binary image (1 channel)
 
     @note output constraints: 
-    @n - _img should not be empty 
-    @n - morph_img should be gray image (1 channel)
+    @n - image should not be empty 
+    @n - image size should be 10x10
+    @n - image should be binary image (1 channel)
 
-    @return : output morphology image.
+    @return vol: output detected volume.
     """
     try:
       # input error check
       if img is None:
         raise NoImageError
+      h, w = img.shape
+      if ((h != 10) or (w != 10)):
+        raise SmallImageSizeError(w, h)
       if (img.dtype != 'uint8'):
         raise MonoImageError(img.dtype)
       
       # doing
-      contours,hierarchy = cv2.findContours(img,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
-      out = np.zeros(img.shape,np.uint8)
-      #print(len(contours))
-      for cnt in contours:
-          [x,y,w,h] = cv2.boundingRect(cnt)
-          # # compare with center point
-          # M = cv2.moments(cnt, False)
-          # cx = int(M['m10'] / M['m00'])
-          # cy = int(M['m01'] / M['m00'])
-
-          # in_center = self.judge_center(cx, cy, roi_w, roi_h)
-          #print(cx)
-          #print(in_center)
-
-          # if(in_center == False):
-          #   return -1, semantic_image
-
-          # cv2.rectangle(roi,(x,y),(x+w,y+h),(0,255,0),2)
-          roi_bin = img[y:y+h,x:x+w]
-          #cv2.imshow('roi_bin',roi_bin)
-          roismall = cv2.resize(roi_bin,(10,10))
-          #cv2.imshow('roismall',roismall)
-          roismall = roismall.reshape((1,100))
-          roismall = np.float32(roismall)
+      roismall = img.reshape((1,100))
+      roismall = np.float32(roismall)
           
-          retval, results, neigh_resp, dists = self.model.findNearest(roismall, k = 3)
-          string = str(int((results[0][0])))
-          #print(string)
-          #cv2.putText(out,string,(x,y+h),0,1,(255,255,255))
+      retval, results, neigh_resp, dists = self.model.findNearest(roismall, k = 3)
+      
+      if (dists[0][0] > 500000):
+            raise KnnDistError(retval, dists[0][0])
 
-          result_val = int((results[0][0]))
-          #cv2.imshow("roi",roi)
-          #cv2.waitKey(3)
+      # debug_string = "retval: " + str(retval) + " / results: " + str(results) + " / neigh_resp: " + str(neigh_resp) + " / dists: " + str(dists)
+      # print(debug_string)
+
+      vol = int(retval)
 
       # output error check
-      if (morph_img is None):
-        raise NoImageError
-      if (morph_img.dtype != 'uint8'):
-        raise MonoImageError(morph_img.dtype)
+      if(vol < 0 or vol > 9):
+        raise EachVolumeError(vol)
 
       # return
-      return morph_img
+      return vol
+
+    except Exception as e:
+      print(e)
+      return -1
+    pass
+
+  def get_valid_volume(self, rt_vol, max_param = 5):
+    """!
+    @brief we calculate valid volume with max function.
+    @details the method is simple. we append real-time volume to list and if the list is bigger than max_param then it will get max volume.
+
+    @param[in] rt_vol: real-time volume
+    @param[in] vol_list: volume list, it is member variable
+    @param[in] max_param: it would decide the volumes of list is valid
+    
+    @note input constraints: 
+    @n - rt_vol should be ranged 0~100
+    @n - vol_list should not be over max_param
+
+    @note output constraints: 
+    @n - valid_vol should be ranged 0~100
+
+    @return valid_vol: valid volume
+    """
+    try:
+      # input error check
+      if rt_vol < 0 or rt_vol > 100:
+        raise VolumeError(rt_vol)
+      if (len(self.vol_list) > max_param):
+        raise VolumeListError(len(self.vol_list), max_param)
+      
+      # doing
+      self.vol_list.append(rt_vol)
+      if(len(self.vol_list) > max_param):
+        self.vol_list.pop(0)
+        valid_vol = max(self.vol_list)
+      else:
+        raise NotEnoughVolumeListError(len(self.vol_list), max_param)
+
+      # output error check
+      if valid_vol < 0 or valid_vol > 100:
+        raise VolumeError(valid_vol)
+
+      # return
+      return valid_vol
 
     except Exception as e:
       print(e)
       return None
+    pass
+
+  def create_text_data(self):
+    """!
+    @brief create text data
+    @details
+
+    @param[in] img: binary input image.
+    
+    @note input constraints: 
+    @n - image should not be empty
+    @n - image size should be 40x40 (size of dataset)
+    @n - image should be binary image (1 channel)
+    """
+    try:
+      
+      num_dir = 0
+      samples =  np.empty((0,100))
+      responses = []
+      while num_dir < 10:
+        num = 0
+        while num < 1000:
+          name = '/root/catkin_ws/src/ocr/dataset/'+ str(num_dir) + '/' + str(num) + '.jpg'
+          img = cv2.imread(name, cv2.IMREAD_GRAYSCALE)
+          # cv2.imshow("img",img)
+          # cv2.waitKey(100)
+
+          # input error check
+          if img is None:
+            raise NoImageError
+          h, w = img.shape
+          if ((h != 10) or (w != 10)):
+            raise SmallImageSizeError(w, h)
+          if (img.dtype != 'uint8'):
+            raise MonoImageError(img.dtype)
+      
+          # doing
+          responses.append(int(num_dir))
+          sample = img.reshape((1,100))
+          samples = np.append(samples,sample,0)
+
+          num = num+1
+          string = "process: " + str(num)
+          print(string)
+        num_dir = num_dir+1
+      responses = np.array(responses,np.float32)
+      responses = responses.reshape((responses.size,1))
+
+      print("create text data complete")
+
+      np.savetxt('/root/catkin_ws/src/ocr/dataset/generalsamples.data',samples)
+      np.savetxt('/root/catkin_ws/src/ocr/dataset/generalresponses.data',responses)
+
+    except Exception as e:
+      print(e)
+    pass
+
+  def ocr_train(self):
+    """!
+    @brief train
+    @details
+
+    @param[in] img: binary input image.
+    
+    @note input constraints: 
+    @n - image should not be empty
+    @n - image size should be 40x40 (size of dataset)
+    @n - image should be binary image (1 channel)
+    """
+    try:
+
+      samples = np.loadtxt('/root/catkin_ws/src/ocr/dataset/generalsamples.data',np.float32)
+      responses = np.loadtxt('/root/catkin_ws/src/ocr/dataset/generalresponses.data',np.float32)
+      responses = responses.reshape((responses.size,1))
+
+      model = cv2.ml.KNearest_create()
+      model.train(samples,cv2.ml.ROW_SAMPLE,responses)
+      save_dir = '/root/catkin_ws/src/ocr/model/knn_trained_model.xml'
+      model.save(save_dir)
+      
+      acc_cnt = 0
+      num_dir = 0
+      while num_dir < 10:
+        num = 0
+        while num < 1000:
+          name = '/root/catkin_ws/src/ocr/dataset/'+ str(num_dir) + '/' + str(num) + '.jpg'
+          img = cv2.imread(name, cv2.IMREAD_GRAYSCALE)
+
+          # input error check
+          if img is None:
+            raise NoImageError
+          h, w = img.shape
+          if ((h != 10) or (w != 10)):
+            raise SmallImageSizeError(w, h)
+          if (img.dtype != 'uint8'):
+            raise MonoImageError(img.dtype)
+      
+          # doing
+          roismall = img.reshape((1,100))
+          roismall = np.float32(roismall)
+
+          retval, results, neigh_resp, dists = model.findNearest(roismall, k = 1)
+
+          string = "process: " + str(num_dir) + " / " + str(num) + " is " + str(retval)
+          print(string)
+          if(num_dir == retval):
+            acc_cnt = acc_cnt + 1
+
+          num = num + 1
+        num_dir = num_dir + 1
+      
+      accuracy = acc_cnt / 10000
+      string = "accuracy: " + str(accuracy)
+      print(string)
+
+    except Exception as e:
+      print(e)
     pass
 
   def get_morpholgy_close(self, img):
@@ -1232,232 +1390,104 @@ class OCR:
       return None
     pass
 
+  def get_semantic_image(self, img, each_roi_pts, bounding_rect_list, rt_vol_list, valid_vol):
+    """!
+    @brief draw semantic image for debugging.
+    @details it has marker roi image which which has bounding rectangle for each digit of volume indicator.
+    @n there are also information like real-time volum / valid volume
+    @n real-time volume is estimated volume at every time. even though all the digits are not detected successfully.
+    @n valid volume is calculated real-time value. when the digits are detected successfully, we append this volume to list. and 
 
-
-
-
-
-  def detect_volume(self, roi_1, roi_2, roi_3, semantic_image, pts_each):
-    error_flag = False
-    vol_array = [-1, -1, -1]
-
-    if((self.pre_vol_array[0] == -1) and (self.pre_vol_array[1] == -1) and (self.pre_vol_array[2] == -1)):
-      result, semantic_image = self.detect_each_volume(roi_1, 's', 50, semantic_image, pts_each[0])
-      if(result == -1):
-        error_flag = True
-      else:
-        # check num_1
-        # it should be 0 or 1 only
-        if(result != 1):
-          result = 0
-        vol_array[0] = result
-
-      result, semantic_image = self.detect_each_volume(roi_2, 'v', 90, semantic_image, pts_each[1])
-      #print(result)
-      if(result == -1):
-        error_flag = True
-      else:
-        vol_array[1] = result
-
-      result, semantic_image = self.detect_each_volume(roi_3, 'v', 90, semantic_image, pts_each[2])
-      #print(result)
-      if(result == -1):
-        error_flag = True
-      else:
-        vol_array[2] = result
-
-      if(vol_array[1] != 0 or vol_array[2] != 0):
-        vol_array[0] = 0
-
-      
-
-    else:
-      result, semantic_image = self.detect_each_volume(roi_1, 's', 50, semantic_image, pts_each[0])
-      if(result == -1):
-        if(self.pre_vol_array[0] != -1):
-          result = self.pre_vol_array[0]
-          #print(self.pre_vol_array[0])
-          vol_array[0] = result
-        error_flag = True
-      else:
-        # check num_1
-        # it should be 0 or 1 only
-        if(self.pre_vol_array[1] != 9):
-          result = 0
-        if(result != 1):
-          result = 0
-          
-        vol_array[0] = result
-
-      result, semantic_image = self.detect_each_volume(roi_2, 'v', 90, semantic_image, pts_each[1])
-      if(result == -1):
-        error_flag = True
-      else:
-        # check num_2
-        # it should be +1 or -1 from previous value
-        if(self.pre_vol_array[1] == 9):
-          if(result != 0 and result != 9 and result != 8):
-            result = -1
-            error_flag = True
-        elif(self.pre_vol_array[1] ==0):
-          if(result != 1 and result != 0 and result != 9):
-            result = -1
-            error_flag = True
-        else:
-          if((result < self.pre_vol_array[1]-1) or (result > self.pre_vol_array[1]+1)):
-            result = -1
-            error_flag = True
-        vol_array[1] = result
-          
-
-      result, semantic_image = self.detect_each_volume(roi_3, 'v', 90, semantic_image, pts_each[2])
-      #print(result)
-      if(result == -1):
-        error_flag = True
-      else:
-        # check num_3
-        # it should be +1 or -1 from previous value
-        if(self.pre_vol_array[2] == 9):
-          if(self.state == 1):
-            if(result != 0 and result != 9):
-              result = -1
-              error_flag = True
-          elif(self.state == 2):
-            if(result != 9 and result != 8):
-              result = -1
-              error_flag = True
-        elif(self.pre_vol_array[2] ==0):
-          if(self.state == 1):
-            if(result != 1 and result != 0):
-              result = -1
-              error_flag = True
-          if(self.state == 2):
-            if(result != 0 and result != 9):
-              result = -1
-              error_flag = True
-        else:
-          if(self.state == 1):
-            if(result < self.pre_vol_array[2]):
-              result = -1
-              error_flag = True
-          if(self.state == 2):
-            if(result > self.pre_vol_array[2]):
-              result = -1
-              error_flag = True
-        vol_array[2] = result
-
+    @param[in] img: input image. it should be roi image maden with marker
     
-    if(error_flag):
-      return semantic_image, vol_array
-    else:
-      self.pre_vol_array[0] = int(vol_array[0])
-      self.pre_vol_array[1] = int(vol_array[1])
-      self.pre_vol_array[2] = int(vol_array[2])
-      #print(self.pre_vol_array)
-      return semantic_image, vol_array
+    @note input constraints: 
+    @n - image should not be empty
+    @n - image should be color image (3 channel)
 
-  def detect_each_volume(self, roi, format, thresh_value, semantic_image, pt_each):
-    result_val = None
-    roi_h, roi_w, roi_c = roi.shape
+    @note output constraints: 
+    @n - semantic_img should not be empty 
+    @n - semantic_img should be color image (3 channel)
 
-    hsv = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
-    h, s, v = cv2.split(hsv)
-    
-    hsv_img = None
-    bin_img = None
-    if(format == 'h'):
-      hsv_img = h.copy()
-      #cv2.imshow("h", h)
-    elif(format == 's'):
-      hsv_img = s.copy()
-      #cv2.imshow("s", s)
-      (thresh, bin_img) = cv2.threshold(hsv_img, thresh_value, 255, cv2.THRESH_BINARY)
-      #cv2.imshow("bin", bin_img)
-    elif(format == 'v'):
-      hsv_img = v.copy()
-      #cv2.imshow("v", v)
-      (thresh, bin_img) = cv2.threshold(hsv_img, thresh_value, 255, cv2.THRESH_BINARY_INV)
-      #cv2.imshow("bin", bin_img)
-    
-    #(thresh, bin_img) = cv2.threshold(hsv_img, thresh_value, 255, cv2.THRESH_BINARY_INV)
-    
-    #cv2.waitKey(100)
+    @return semantic_img: output semantic image.
+    """
+    try:
+      # input error check
+      if img is None:
+        raise NoImageError
+      if (img.shape[2] != 3):
+        raise ColorImageError(img.shape[2])
 
-    contours,hierarchy = cv2.findContours(bin_img,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
-    out = np.zeros(roi.shape,np.uint8)
-    draw_flag = False
-    #print(len(contours))
-    for cnt in contours:
-      if cv2.contourArea(cnt)>20:
-        [x,y,w,h] = cv2.boundingRect(cnt)
-        if  h>20:
-          # compare with center point
-          M = cv2.moments(cnt, False)
-          cx = int(M['m10'] / M['m00'])
-          cy = int(M['m01'] / M['m00'])
+      # doing
+      semantic_img = img.copy()
 
-          in_center = self.judge_center(cx, cy, roi_w, roi_h)
-          #print(cx)
-          #print(in_center)
+      black_img = np.zeros([semantic_img.shape[0],250,3],dtype=np.uint8)
+      semantic_img = np.concatenate((semantic_img, black_img), axis=1)
+      if(bounding_rect_list[0] != None):
+        roi_x_1 = int(each_roi_pts[0][0])
+        roi_y_1 = int(each_roi_pts[0][1])
+        bounding_rect_x_1 = bounding_rect_list[0][0]
+        bounding_rect_y_1 = bounding_rect_list[0][1]
+        bounding_rect_w_1 = bounding_rect_list[0][2]
+        bounding_rect_h_1 = bounding_rect_list[0][3]
+        cv2.rectangle(semantic_img,(roi_x_1+bounding_rect_x_1,roi_y_1+bounding_rect_y_1),(roi_x_1+bounding_rect_x_1+bounding_rect_w_1,roi_y_1+bounding_rect_y_1+bounding_rect_h_1),(0,255,0),2)
 
-          if(in_center == False):
-            return -1, semantic_image
+      if(bounding_rect_list[1] != None):
+        roi_x_2 = int(each_roi_pts[1][0])
+        roi_y_2 = int(each_roi_pts[1][1])
+        bounding_rect_x_2 = bounding_rect_list[1][0]
+        bounding_rect_y_2 = bounding_rect_list[1][1]
+        bounding_rect_w_2 = bounding_rect_list[1][2]
+        bounding_rect_h_2 = bounding_rect_list[1][3]
+        cv2.rectangle(semantic_img,(roi_x_2+bounding_rect_x_2,roi_y_2+bounding_rect_y_2),(roi_x_2+bounding_rect_x_2+bounding_rect_w_2,roi_y_2+bounding_rect_y_2+bounding_rect_h_2),(0,255,0),2)
 
-          cv2.rectangle(roi,(x,y),(x+w,y+h),(0,255,0),2)
-          # semantic image drawing
-          #print(pts)
-          if(draw_flag == False):
-            cv2.rectangle(semantic_image,(int(pt_each[0])+x,int(pt_each[1])+y),(int(pt_each[0])+x+w,int(pt_each[1])+y+h),(0,255,0),2)
-            draw_flag = True
-          roi_bin = bin_img[y:y+h,x:x+w]
-          #cv2.imshow('roi_bin',roi_bin)
-          roismall = cv2.resize(roi_bin,(10,10))
-          #cv2.imshow('roismall',roismall)
-          roismall = roismall.reshape((1,100))
-          roismall = np.float32(roismall)
-          
-          retval, results, neigh_resp, dists = self.model.findNearest(roismall, k = 3)
-          string = str(int((results[0][0])))
-          #print(string)
-          #cv2.putText(out,string,(x,y+h),0,1,(255,255,255))
 
-          result_val = int((results[0][0]))
-          #cv2.imshow("roi",roi)
-          #cv2.waitKey(3)
-
-    if(result_val == None):
-      return -1, semantic_image
-    else:
-      return result_val, semantic_image
-
-  def judge_center(self, cx, cy, w, h):
-    if((cx > w/4) and (cx < w*(3/4))):
-      return True
-    else: 
-      return False
-
-  def track_volume(self, vol):
-    if (len(self.result_cnt) < self.max_param) and (self.init_vol_flag == False):
-      self.result_cnt.append(vol)
-    else :
-      if(self.init_vol_flag == False):
-        #self.result_cnt.pop(0)
-        #self.result_cnt.append(vol)
-        self.result_max = max(self.result_cnt)
-        #print(self.result_max)
-        self.pre_vol = self.result_max
-
-      self.init_vol_flag = True
-
-    if(self.init_vol_flag == True):
-      if((vol == self.pre_vol) or (vol == self.pre_vol-1) or (vol == self.pre_vol+1)):
-        self.pre_vol = vol
-        #print(self.pre_vol)
-        return vol
-      else: 
-        return self.pre_vol
+      roi_x_3 = int(each_roi_pts[2][0])
+      roi_y_3 = int(each_roi_pts[2][1])
+      cv2.rectangle(semantic_img,(roi_x_3,roi_y_3),(roi_x_3+40,roi_y_3+40),(255,255,0),2)
+      cv2.line(semantic_img,(roi_x_3+20,roi_y_3),(roi_x_3+20,roi_y_3+40),(0,0,255),2)
+      if(bounding_rect_list[2] != None):
         
+        bounding_rect_x_3 = bounding_rect_list[2][0]
+        bounding_rect_y_3 = bounding_rect_list[2][1]
+        bounding_rect_w_3 = bounding_rect_list[2][2]
+        bounding_rect_h_3 = bounding_rect_list[2][3]
+        cv2.rectangle(semantic_img,(roi_x_3+bounding_rect_x_3,roi_y_3+bounding_rect_y_3),(roi_x_3+bounding_rect_x_3+bounding_rect_w_3,roi_y_3+bounding_rect_y_3+bounding_rect_h_3),(0,255,0),2)
+        # drawing center line
+        cx_3 = roi_x_3+bounding_rect_x_3+int(bounding_rect_w_3/2)
+        cy_3_top = roi_y_3+bounding_rect_y_3
+        cy_3_bottom = roi_y_3+bounding_rect_y_3+bounding_rect_h_3
+        cv2.line(semantic_img,(cx_3,cy_3_top),(cx_3,cy_3_bottom),(0,128,255),2)
+        
+        self.center_percentage = int(((cx_3 - (roi_x_3+20))/20)*100)
 
+      str_valid_vol = str(valid_vol).zfill(3)
+      str_valid_vol = "valid volume: " + str_valid_vol
+      
+      str_rt_vol = rt_vol_list[0]
+      str_rt_vol = str_rt_vol + rt_vol_list[1]
+      str_rt_vol = str_rt_vol + rt_vol_list[2]
+      str_rt_vol = "real-time value: " + str_rt_vol    
+
+      str_center_percentage = str(self.center_percentage)
+      str_center_percentage = "center percentage: " + str_center_percentage + "%"
+
+      cv2.putText(semantic_img,str_valid_vol,(130, 20),0,0.5,(255,255,255),1)
+      cv2.putText(semantic_img,str_rt_vol,(130, 70),0,0.5,(255,255,255),1)
+      cv2.putText(semantic_img,str_center_percentage,(130, 120),0,0.5,(255,255,255),1)
+
+      # output error check
+      if (semantic_img is None):
+        raise NoImageError
+      if (semantic_img.shape[2] != 3):
+        raise ColorImageError(semantic_img.shape[2])
+
+      # return
+      return semantic_img, self.center_percentage
+
+    except Exception as e:
+      print(e)
+      return None, None
+    pass
 
 class NoImageError(Exception):
   """there is no image"""
@@ -1466,6 +1496,12 @@ class NoImageError(Exception):
 class InputImageSizeError(Exception):
     def __init__(self, w, h):
       self.msg = "size of image is not 640x480. the size of image is " + str(w) + "x" + str(h) + "."
+    def __str__(self):
+      return self.msg
+
+class ROIImageSizeError(Exception):
+    def __init__(self, w, h):
+      self.msg = "size of small image is not 40x40. the size of image is " + str(w) + "x" + str(h) + "."
     def __str__(self):
       return self.msg
 
@@ -1495,7 +1531,7 @@ class MarkerNumberError(Exception):
 
 class RangeError(Exception):
     def __init__(self, c):
-      self.msg = "the range should be 0~255. but the value is "+ str(c)
+      self.msg = "the range should be 0~255. but the value is "+ str(c) + "."
     def __str__(self):
       return self.msg
 
@@ -1513,7 +1549,49 @@ class EmptyListError(Exception):
 
 class ContourError(Exception):
     def __init__(self, c):
-      self.msg = "the number contour should be 1. but the number of contour is " + str(c)
+      self.msg = "the number contour should be 1. but the number of contour is " + str(c) + "."
+    def __str__(self):
+      return self.msg
+
+class CenterError(Exception):
+    def __init__(self, cx, cy):
+      self.msg = "the digit is not located in center area. it's located in " + str(cx) + "x" + str(cy) + "."
+    def __str__(self):
+      return self.msg
+
+class ResizeError(Exception):
+    def __init__(self, w, h):
+      self.msg = "size of input image has error value. which are " + str(w) + "x" + str(h) + "."
+    def __str__(self):
+      return self.msg
+
+class EachVolumeError(Exception):
+    def __init__(self, vol):
+      self.msg = "range of each volum should be 0~9. but the volum is " + str(vol) + "."
+    def __str__(self):
+      return self.msg
+
+class VolumeError(Exception):
+    def __init__(self, vol):
+      self.msg = "range of volum should be 0~100. but the volum is " + str(vol) + "."
+    def __str__(self):
+      return self.msg
+
+class VolumeListError(Exception):
+    def __init__(self, leng_of_vol_list, max_param):
+      self.msg = "length of volume list should be smaller than " + str(max_param) + ". but the length of the volume list is " + str(leng_of_vol_list) + "."
+    def __str__(self):
+      return self.msg
+
+class NotEnoughVolumeListError(Exception):
+    def __init__(self, leng_of_vol_list, max_param):
+      self.msg = "length of volume list should be at least " + str(max_param) + ". but the length of the volume list is " + str(leng_of_vol_list) + "."
+    def __str__(self):
+      return self.msg
+
+class KnnDistError(Exception):
+    def __init__(self, retval, dist):
+      self.msg = "distance of knn sould be at least 500,000 but the dist of "+ str(retval) + " is " + str(dist) + "."
     def __str__(self):
       return self.msg
 
@@ -1521,6 +1599,8 @@ def main(args):
   rospy.init_node('ocr_node', anonymous=True)
   ocr = OCR()
   try:
+    #ocr.create_text_data()
+    #ocr.ocr_train()
     rospy.spin()
   except KeyboardInterrupt:
     print("Shutting down")

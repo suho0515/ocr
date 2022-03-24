@@ -2,7 +2,6 @@ import cv2
 import numpy as np
 
 num_dir = 0
-
 samples =  np.empty((0,100))
 responses = []
 while num_dir < 10:

@@ -29,63 +29,62 @@ $(function() {
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="keyword">import</span> numpy <span class="keyword">as</span> np</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
 <div class="line"><a name="l00004"></a><span class="lineno"><a class="line" href="namespaceocr__create__text__data.html#a1dba74a96d786acc2e498cb6f4dfeda5">    4</a></span>&#160;num_dir = 0</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
-<div class="line"><a name="l00006"></a><span class="lineno"><a class="line" href="namespaceocr__create__text__data.html#ab34bc2f667be486b06ae6573b534aaf8">    6</a></span>&#160;samples =  np.empty((0,100))</div>
-<div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="namespaceocr__create__text__data.html#a68b7db80b60fcac2beabd29eb5fb8380">    7</a></span>&#160;responses = []</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keywordflow">while</span> num_dir &lt; 10:</div>
-<div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="namespaceocr__create__text__data.html#aba1e6f4eba6c00536be8db2ea9f54a46">    9</a></span>&#160;    num = 0</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <span class="keywordflow">while</span> num &lt; 100:</div>
-<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="namespaceocr__create__text__data.html#af5a16e06340923fa404222139376d55c">   11</a></span>&#160;        name = <span class="stringliteral">&#39;/root/catkin_ws/src/ocr/dataset/&#39;</span>+ str(num_dir) + <span class="stringliteral">&#39;/&#39;</span> + str(num) + <span class="stringliteral">&#39;.jpg&#39;</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="namespaceocr__create__text__data.html#a7258ead37682cb30bcdb9570174d5c68">   12</a></span>&#160;        img = cv2.imread(name, cv2.IMREAD_GRAYSCALE)</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        cv2.imshow(<span class="stringliteral">&#39;img&#39;</span>,img)</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
-<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="namespaceocr__create__text__data.html#ade2fd47a00f9e04c75a844edf01a7ab5">   15</a></span>&#160;        (thresh, bin_img) = cv2.threshold(img, 127, 255, cv2.THRESH_BINARY)</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <span class="comment">#cv2.imshow(&#39;bin_img&#39;,bin_img)</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <span class="comment">#thresh = cv2.adaptiveThreshold(img,255,1,1,3,2)</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <span class="comment">#rng = cv2.inRange(img, (0, 0, 0), (100, 100, 100))</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="comment">#cv2.imshow(&#39;rng&#39;,rng)</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="comment">#cv2.waitKey(10)</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        </div>
-<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="namespaceocr__create__text__data.html#a199ff148202c68888e6bd89db2ab6d9d">   23</a></span>&#160;        contours,hierarchy = cv2.findContours(bin_img,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keywordflow">for</span> cnt <span class="keywordflow">in</span> contours:</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;            <span class="keywordflow">if</span> cv2.contourArea(cnt)&gt;20:</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                [x,y,w,h] = cv2.boundingRect(cnt)</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;                <span class="keywordflow">if</span>  h&gt;20:</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                    cv2.rectangle(img,(x,y),(x+w,y+h),(0,0,255),2)</div>
-<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="namespaceocr__create__text__data.html#a38cbd70285d32c2f65e070c2d2e463ee">   31</a></span>&#160;                    roi = bin_img[y:y+h,x:x+w]</div>
-<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="namespaceocr__create__text__data.html#aa892eecd89cecd465d3bcc39daf26007">   32</a></span>&#160;                    roismall = cv2.resize(roi,(10,10))</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                    cv2.imshow(<span class="stringliteral">&#39;roismall&#39;</span>,roismall)</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                    cv2.waitKey(10)</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        responses.append(int(num_dir))</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="comment">#print(int(num/10))</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="namespaceocr__create__text__data.html#aff4dd122f85f0d26f6f6f192d2834d2c">   38</a></span>&#160;        sample = roismall.reshape((1,100))</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        samples = np.append(samples,sample,0)</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="comment">#cv2.imshow(&#39;img&#39;,img)</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="comment">#cv2.waitKey(0)</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        num = num+1</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    num_dir = num_dir+1</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;responses = np.array(responses,np.float32)</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;responses = responses.reshape((responses.size,1))</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;print(<span class="stringliteral">&quot;training complete&quot;</span>)</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;np.savetxt(<span class="stringliteral">&#39;/root/catkin_ws/src/ocr/dataset/generalsamples.data&#39;</span>,samples)</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;np.savetxt(<span class="stringliteral">&#39;/root/catkin_ws/src/ocr/dataset/generalresponses.data&#39;</span>,responses)</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;cv2.destroyAllWindows()</div>
+<div class="line"><a name="l00005"></a><span class="lineno"><a class="line" href="namespaceocr__create__text__data.html#ab34bc2f667be486b06ae6573b534aaf8">    5</a></span>&#160;samples =  np.empty((0,100))</div>
+<div class="line"><a name="l00006"></a><span class="lineno"><a class="line" href="namespaceocr__create__text__data.html#a68b7db80b60fcac2beabd29eb5fb8380">    6</a></span>&#160;responses = []</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keywordflow">while</span> num_dir &lt; 10:</div>
+<div class="line"><a name="l00008"></a><span class="lineno"><a class="line" href="namespaceocr__create__text__data.html#aba1e6f4eba6c00536be8db2ea9f54a46">    8</a></span>&#160;    num = 0</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <span class="keywordflow">while</span> num &lt; 100:</div>
+<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="namespaceocr__create__text__data.html#af5a16e06340923fa404222139376d55c">   10</a></span>&#160;        name = <span class="stringliteral">&#39;/root/catkin_ws/src/ocr/dataset/&#39;</span>+ str(num_dir) + <span class="stringliteral">&#39;/&#39;</span> + str(num) + <span class="stringliteral">&#39;.jpg&#39;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="namespaceocr__create__text__data.html#a7258ead37682cb30bcdb9570174d5c68">   11</a></span>&#160;        img = cv2.imread(name, cv2.IMREAD_GRAYSCALE)</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;        cv2.imshow(<span class="stringliteral">&#39;img&#39;</span>,img)</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
+<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="namespaceocr__create__text__data.html#ade2fd47a00f9e04c75a844edf01a7ab5">   14</a></span>&#160;        (thresh, bin_img) = cv2.threshold(img, 127, 255, cv2.THRESH_BINARY)</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        <span class="comment">#cv2.imshow(&#39;bin_img&#39;,bin_img)</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        <span class="comment">#thresh = cv2.adaptiveThreshold(img,255,1,1,3,2)</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <span class="comment">#rng = cv2.inRange(img, (0, 0, 0), (100, 100, 100))</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <span class="comment">#cv2.imshow(&#39;rng&#39;,rng)</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="comment">#cv2.waitKey(10)</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        </div>
+<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="namespaceocr__create__text__data.html#a199ff148202c68888e6bd89db2ab6d9d">   22</a></span>&#160;        contours,hierarchy = cv2.findContours(bin_img,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <span class="keywordflow">for</span> cnt <span class="keywordflow">in</span> contours:</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;            <span class="keywordflow">if</span> cv2.contourArea(cnt)&gt;20:</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                [x,y,w,h] = cv2.boundingRect(cnt)</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                <span class="keywordflow">if</span>  h&gt;20:</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;                    cv2.rectangle(img,(x,y),(x+w,y+h),(0,0,255),2)</div>
+<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="namespaceocr__create__text__data.html#a38cbd70285d32c2f65e070c2d2e463ee">   30</a></span>&#160;                    roi = bin_img[y:y+h,x:x+w]</div>
+<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="namespaceocr__create__text__data.html#aa892eecd89cecd465d3bcc39daf26007">   31</a></span>&#160;                    roismall = cv2.resize(roi,(10,10))</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                    cv2.imshow(<span class="stringliteral">&#39;roismall&#39;</span>,roismall)</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                    cv2.waitKey(10)</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        responses.append(int(num_dir))</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="comment">#print(int(num/10))</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="namespaceocr__create__text__data.html#aff4dd122f85f0d26f6f6f192d2834d2c">   37</a></span>&#160;        sample = roismall.reshape((1,100))</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        samples = np.append(samples,sample,0)</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        </div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="comment">#cv2.imshow(&#39;img&#39;,img)</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="comment">#cv2.waitKey(0)</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        num = num+1</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    num_dir = num_dir+1</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;responses = np.array(responses,np.float32)</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;responses = responses.reshape((responses.size,1))</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;print(<span class="stringliteral">&quot;training complete&quot;</span>)</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;np.savetxt(<span class="stringliteral">&#39;/root/catkin_ws/src/ocr/dataset/generalsamples.data&#39;</span>,samples)</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;np.savetxt(<span class="stringliteral">&#39;/root/catkin_ws/src/ocr/dataset/generalresponses.data&#39;</span>,responses)</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;cv2.destroyAllWindows()</div>
 </div><!-- fragment --></div><!-- contents -->
 
 <br clear="all" />
 <hr size="1"><div style="align: right;">
 <a href="http://wiki.ros.org/ocr">ocr</a><br />
 Author(s): </br />
-<small>autogenerated on Thu Mar 17 2022 22:21:58</small>
+<small>autogenerated on Thu Mar 24 2022 09:52:41</small>
 </div>
 </body>
 </html>
