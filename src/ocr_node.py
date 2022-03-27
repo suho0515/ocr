@@ -120,7 +120,7 @@ class OCR:
 
     # Variables
     ## self.debug_flag: if debug_flag is true, all debug topic message would published. if debug_flag is false, only necessary topic message would published.
-    self.debug_flag = True
+    self.debug_flag = False
     ## we use this member variable when approach to dataset
     self.num = 0
     ## detected real-time volume
@@ -380,16 +380,14 @@ class OCR:
     if(self.int_rt_vol != -1):
       self.valid_vol_msg.data = self.get_valid_volume(self.int_rt_vol, max_param = 1)
       
-    if(self.debug_flag):
       self.valid_vol_pub.publish(self.valid_vol_msg)
 
     semantic_img, center_diff_percentage = self.get_semantic_image(trans_img, each_roi_pts, bounding_rect_list, self.str_rt_vol, self.valid_vol_msg.data)
     if (semantic_img is None): return
     else:
-      if(self.debug_flag):
-        self.semantic_img_pub.publish(self.bridge.cv2_to_imgmsg(semantic_img, "bgr8"))
-        self.center_diff_percentage_msg.data = center_diff_percentage
-        self.center_diff_percentage_pub.publish(self.center_diff_percentage_msg)
+      self.semantic_img_pub.publish(self.bridge.cv2_to_imgmsg(semantic_img, "bgr8"))
+      self.center_diff_percentage_msg.data = center_diff_percentage
+      self.center_diff_percentage_pub.publish(self.center_diff_percentage_msg)
 
     pass
 
