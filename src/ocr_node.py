@@ -25,6 +25,8 @@ class OCR:
     self.img_pub = rospy.Publisher("image_raw",Image, queue_size=1)
     ## draft roi image publisher. the topic message is "draft_roi_image"
     self.draft_roi_img_pub = rospy.Publisher("draft_roi_image",Image, queue_size=1)
+    ## multiply image publisher. the topic message is "multiply_image"
+    self.mul_img_pub = rospy.Publisher("multiply_image",Image, queue_size=1)
     ## big hsv image(in hsv format) publisher. the topic message is "big_hsv_image".
     self.big_hsv_img_pub = rospy.Publisher("big_hsv_img",Image, queue_size=1)
     ## big h image(in hsv format) publisher. the topic message is "big_h_image".
@@ -120,7 +122,7 @@ class OCR:
 
     # Variables
     ## self.debug_flag: if debug_flag is true, all debug topic message would published. if debug_flag is false, only necessary topic message would published.
-    self.debug_flag = False
+    self.debug_flag = True
     ## we use this member variable when approach to dataset
     self.num = 0
     ## detected real-time volume
@@ -183,7 +185,13 @@ class OCR:
       if(self.debug_flag):
         self.draft_roi_img_pub.publish(self.bridge.cv2_to_imgmsg(draft_roi_img, "bgr8"))
 
-    big_hsv_img, big_h_img, big_s_img, big_v_img = self.get_hsv(draft_roi_img)
+    mul_img = self.get_multiply(draft_roi_img, 2.0)
+    if(mul_img is None): return
+    else:
+      if(self.debug_flag):
+        self.mul_img_pub.publish(self.bridge.cv2_to_imgmsg(mul_img, "bgr8"))
+
+    big_hsv_img, big_h_img, big_s_img, big_v_img = self.get_hsv(mul_img)
     if((big_h_img is None) or (big_s_img is None) or (big_v_img is None)): return
     else:
       if(self.debug_flag):
@@ -192,17 +200,17 @@ class OCR:
         self.big_s_img_pub.publish(self.bridge.cv2_to_imgmsg(big_s_img, "mono8"))
         self.big_v_img_pub.publish(self.bridge.cv2_to_imgmsg(big_v_img, "mono8"))
 
-    big_ranged_img = self.get_range(big_hsv_img, 0,100,0,40,255,255)
+    big_ranged_img = self.get_range(big_hsv_img, 0,0,0,50,255,255)
     if(big_ranged_img is None): return
     else:
       if(self.debug_flag):
         self.big_ranged_img_pub.publish(self.bridge.cv2_to_imgmsg(big_ranged_img, "mono8"))
 
-    big_bin_img = self.get_binary(big_h_img, 40)
-    if(big_bin_img is None): return
-    else:
-      if(self.debug_flag):
-        self.big_bin_img_pub.publish(self.bridge.cv2_to_imgmsg(big_bin_img, "mono8"))
+    # big_bin_img = self.get_binary(big_h_img, 40)
+    # if(big_bin_img is None): return
+    # else:
+    #   if(self.debug_flag):
+    #     self.big_bin_img_pub.publish(self.bridge.cv2_to_imgmsg(big_bin_img, "mono8"))
 
     big_noise_removed_bin_img, big_mask_bin_img = self.remove_noise(big_ranged_img, 800, 2000, 20, 60, 20, 60, use_morph = False)
     if(big_noise_removed_bin_img is None): return
@@ -217,7 +225,7 @@ class OCR:
       if(self.debug_flag):
         self.marker_img_pub.publish(self.bridge.cv2_to_imgmsg(marker_img, "bgr8"))
 
-    trans_img = self.perspective_transform(draft_roi_img, marker_pts)
+    trans_img = self.perspective_transform(mul_img, marker_pts)
     if(trans_img is None): return
     else:
       if(self.debug_flag):
@@ -267,19 +275,19 @@ class OCR:
       if(self.debug_flag):
         self.each_bg_removed_img_3_pub.publish(self.bridge.cv2_to_imgmsg(each_bg_removed_img_3, "bgr8"))
 
-    each_bin_img_1 = self.get_binary(each_bg_removed_img_1, 140)
+    each_bin_img_1 = self.get_binary(each_bg_removed_img_1, 100)
     if(each_bin_img_1 is None): return
     else:
       if(self.debug_flag):
         self.each_bin_img_1_pub.publish(self.bridge.cv2_to_imgmsg(each_bin_img_1, "mono8"))
       
-    each_bin_img_2 = self.get_binary(each_bg_removed_img_2, 140)
+    each_bin_img_2 = self.get_binary(each_bg_removed_img_2, 100)
     if(each_bin_img_2 is None): return
     else:
       if(self.debug_flag):
         self.each_bin_img_2_pub.publish(self.bridge.cv2_to_imgmsg(each_bin_img_2, "mono8"))
 
-    each_bin_img_3 = self.get_binary(each_bg_removed_img_3, 140)
+    each_bin_img_3 = self.get_binary(each_bg_removed_img_3, 100)
     if(each_bin_img_3 is None): return
     else:
       if(self.debug_flag):
@@ -472,6 +480,49 @@ class OCR:
       return None
     pass
 
+  def get_multiply(self, img, val):
+    """!
+    @brief to make image brighter, we adapt image multiply here
+    @details 
+
+    @param[in] img: opencv format image
+    
+    @note input constraints: 
+    @n - image should not be empty 
+    @n - image should be color image (3 channel)
+
+    @note output constraints: 
+    @n - mul_img should not be empty 
+    @n - mul_img should be color image (3 channel)
+
+    @return mul_img: multiplied image
+    """
+    try:
+      # input error check
+      if img is None:
+        raise NoImageError
+      h, w, c = img.shape
+      if (c != 3):
+        raise ColorImageError(c)
+
+      # doing
+      mul_img = cv2.multiply(img,(val,val,val,val))
+
+      # output error check
+      if mul_img is None:
+        raise NoImageError
+      h, w, c = mul_img.shape
+      if (c != 3):
+        raise ColorImageError(c)
+
+      # return
+      return mul_img
+
+    except Exception as e:
+      print(e)
+      return None
+    pass
+
   def get_hsv(self, img):
     """!
     @brief for detecting marker, we pre-process image to hsv.
@@ -554,7 +605,7 @@ class OCR:
         ret, bin_img = cv2.threshold(img, thr, 255, cv2.THRESH_BINARY)
       #ret, bin_img = cv2.threshold(img, 0, 255, cv2.THRESH_BINARY_INV+cv2.THRESH_OTSU)
 
-      cv2.imshow("bin_img", bin_img)
+      #cv2.imshow("bin_img", bin_img)
       #cv2.waitKey()
 
       # output error check
@@ -1086,10 +1137,10 @@ class OCR:
         M = cv2.moments(cnt, False)
         cx = int(M['m10'] / M['m00'])
         cy = int(M['m01'] / M['m00'])
-        print(x, y, w, h)
+        #print(x, y, w, h)
         
-        print(cx)
-        print(int(img_w*(1/4)))
+        #print(cx)
+        #print(int(img_w*(1/4)))
         if((cx < int(img_w*(1/4))) or (cx > int(img_w*(3/4)))):
           raise CenterError(cx, cy)
 

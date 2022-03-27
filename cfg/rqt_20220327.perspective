@@ -1,0 +1,2283 @@
+{
+  "keys": {},
+  "groups": {
+    "mainwindow": {
+      "keys": {
+        "geometry": {
+          "repr(QByteArray.hex)": "QtCore.QByteArray(b'01d9d0cb000300000000065a000001a500000c3a000006da0000065a000001ca00000c3a000006da00000000000000000f000000065a000001ca00000c3a000006da')",
+          "type": "repr(QByteArray.hex)",
+          "pretty-print": "     Z   :   Z   :        Z   :  "
+        },
+        "state": {
+          "repr(QByteArray.hex)": "QtCore.QByteArray(b'000000ff00000000fd0000000100000003000005e1000004e7fc0100000007fc000000000000031f0000031f00fffffffc0200000002fc0000001400000350000000a600fffffffc0200000002fc00000014000001c70000005000fffffffc0100000002fb0000005a007200710074005f0069006d006100670065005f0076006900650077005f005f0049006d0061006700650056006900650077005f005f0032005f005f0049006d00610067006500560069006500770057006900640067006500740100000000000001990000009200fffffffb0000005c007200710074005f0069006d006100670065005f0076006900650077005f005f0049006d0061006700650056006900650077005f005f00330032005f005f0049006d0061006700650056006900650077005700690064006700650074010000019f00000180000000a900fffffffc000001e1000001830000005000fffffffc0100000005fb0000005a007200710074005f0069006d006100670065005f0076006900650077005f005f0049006d0061006700650056006900650077005f005f0035005f005f0049006d00610067006500560069006500770057006900640067006500740100000000000000b0000000b000fffffffb0000005a007200710074005f0069006d006100670065005f0076006900650077005f005f0049006d0061006700650056006900650077005f005f0036005f005f0049006d006100670065005600690065007700570069006400670065007401000000b6000000980000009800fffffffb0000005a007200710074005f0069006d006100670065005f0076006900650077005f005f0049006d0061006700650056006900650077005f005f0037005f005f0049006d00610067006500560069006500770057006900640067006500740100000154000000970000009700fffffffb0000005a007200710074005f0069006d006100670065005f0076006900650077005f005f0049006d0061006700650056006900650077005f005f0039005f005f0049006d006100670065005600690065007700570069006400670065007401000001f1000000990000009900fffffffb0000005a007200710074005f0069006d006100670065005f0076006900650077005f005f0049006d0061006700650056006900650077005f005f0038005f005f0049006d006100670065005600690065007700570069006400670065007401000002900000008f0000008f00fffffffc0000036a000001910000005000fffffffc0100000005fb0000005c007200710074005f0069006d006100670065005f0076006900650077005f005f0049006d0061006700650056006900650077005f005f00330033005f005f0049006d00610067006500560069006500770057006900640067006500740100000000000000a3000000a300fffffffb0000005c007200710074005f0069006d006100670065005f0076006900650077005f005f0049006d0061006700650056006900650077005f005f00310030005f005f0049006d006100670065005600690065007700570069006400670065007401000000a9000000940000008500fffffffb0000005c007200710074005f0069006d006100670065005f0076006900650077005f005f0049006d0061006700650056006900650077005f005f00310031005f005f0049006d00610067006500560069006500770057006900640067006500740100000143000000990000009900fffffffb0000005c007200710074005f0069006d006100670065005f0076006900650077005f005f0049006d0061006700650056006900650077005f005f00310032005f005f0049006d006100670065005600690065007700570069006400670065007401000001e20000009d0000009d00fffffffb0000005c007200710074005f0069006d006100670065005f0076006900650077005f005f0049006d0061006700650056006900650077005f005f00310033005f005f0049006d006100670065005600690065007700570069006400670065007401000002850000009a0000009a00fffffffc00000325000000a0000000a000fffffffc0200000007fb0000005c007200710074005f0069006d006100670065005f0076006900650077005f005f0049006d0061006700650056006900650077005f005f00310034005f005f0049006d00610067006500560069006500770057006900640067006500740100000014000000a80000005000fffffffb0000005c007200710074005f0069006d006100670065005f0076006900650077005f005f0049006d0061006700650056006900650077005f005f00310037005f005f0049006d006100670065005600690065007700570069006400670065007401000000c2000000b60000005000fffffffb0000005c007200710074005f0069006d006100670065005f0076006900650077005f005f0049006d0061006700650056006900650077005f005f00320030005f005f0049006d0061006700650056006900650077005700690064006700650074010000017e000000a80000005000fffffffb0000005c007200710074005f0069006d006100670065005f0076006900650077005f005f0049006d0061006700650056006900650077005f005f00320033005f005f0049006d0061006700650056006900650077005700690064006700650074010000022c000000b70000005000fffffffb0000005c007200710074005f0069006d006100670065005f0076006900650077005f005f0049006d0061006700650056006900650077005f005f00320036005f005f0049006d006100670065005600690065007700570069006400670065007401000002e9000000ab0000005000fffffffb0000005c007200710074005f0069006d006100670065005f0076006900650077005f005f0049006d0061006700650056006900650077005f005f00320039005f005f0049006d0061006700650056006900650077005700690064006700650074010000039a000000b30000005000fffffffb0000005a007200710074005f0069006d006100670065005f0076006900650077005f005f0049006d0061006700650056006900650077005f005f0034005f005f0049006d00610067006500560069006500770057006900640067006500740100000453000000a80000005000fffffffc000003cb000000a0000000a000fffffffc0200000007fb0000005c007200710074005f0069006d006100670065005f0076006900650077005f005f0049006d0061006700650056006900650077005f005f00310035005f005f0049006d00610067006500560069006500770057006900640067006500740100000014000000a80000005000fffffffb0000005c007200710074005f0069006d006100670065005f0076006900650077005f005f0049006d0061006700650056006900650077005f005f00310038005f005f0049006d006100670065005600690065007700570069006400670065007401000000c2000000b60000005000fffffffb0000005c007200710074005f0069006d006100670065005f0076006900650077005f005f0049006d0061006700650056006900650077005f005f00320031005f005f0049006d0061006700650056006900650077005700690064006700650074010000017e000000a80000005000fffffffb0000005c007200710074005f0069006d006100670065005f0076006900650077005f005f0049006d0061006700650056006900650077005f005f00320034005f005f0049006d0061006700650056006900650077005700690064006700650074010000022c000000b70000005000fffffffb0000005c007200710074005f0069006d006100670065005f0076006900650077005f005f0049006d0061006700650056006900650077005f005f00320037005f005f0049006d006100670065005600690065007700570069006400670065007401000002e9000000a90000005000fffffffb0000005c007200710074005f0069006d006100670065005f0076006900650077005f005f0049006d0061006700650056006900650077005f005f00330030005f005f0049006d00610067006500560069006500770057006900640067006500740100000398000000b50000005000fffffffb0000005a007200710074005f0069006d006100670065005f0076006900650077005f005f0049006d0061006700650056006900650077005f005f0033005f005f0049006d00610067006500560069006500770057006900640067006500740100000453000000a80000005000fffffffc00000471000000a0000000a000fffffffc0200000007fb0000005c007200710074005f0069006d006100670065005f0076006900650077005f005f0049006d0061006700650056006900650077005f005f00310036005f005f0049006d00610067006500560069006500770057006900640067006500740100000014000000a80000005000fffffffb0000005c007200710074005f0069006d006100670065005f0076006900650077005f005f0049006d0061006700650056006900650077005f005f00310039005f005f0049006d006100670065005600690065007700570069006400670065007401000000c2000000b90000005000fffffffb0000005c007200710074005f0069006d006100670065005f0076006900650077005f005f0049006d0061006700650056006900650077005f005f00320032005f005f0049006d00610067006500560069006500770057006900640067006500740100000181000000a90000005000fffffffb0000005c007200710074005f0069006d006100670065005f0076006900650077005f005f0049006d0061006700650056006900650077005f005f00320035005f005f0049006d00610067006500560069006500770057006900640067006500740100000230000000b50000005000fffffffb0000005c007200710074005f0069006d006100670065005f0076006900650077005f005f0049006d0061006700650056006900650077005f005f00320038005f005f0049006d006100670065005600690065007700570069006400670065007401000002eb000000a90000005000fffffffb0000005c007200710074005f0069006d006100670065005f0076006900650077005f005f0049006d0061006700650056006900650077005f005f00330031005f005f0049006d0061006700650056006900650077005700690064006700650074010000039a000000b30000005000fffffffb0000005a007200710074005f0069006d006100670065005f0076006900650077005f005f0049006d0061006700650056006900650077005f005f0031005f005f0049006d00610067006500560069006500770057006900640067006500740100000453000000a80000005000fffffffb0000004c007200710074005f0074006f007000690063005f005f0054006f0070006900630050006c007500670069006e005f005f0031005f005f0054006f0070006900630057006900640067006500740100000517000000ca000000ca00fffffffb00000042007200710074005f006e00610076005f0076006900650077005f005f004e0061007600690067006100740069006f006e0056006900650077005f005f0031005f005f010000052b000000e60000000000000000fb00000042007200710074005f006d00730067005f005f004d0065007300730061006700650073005f005f0031005f005f006d0065007300730061006700650073002e007500690100000927000002570000000000000000000005e10000000000000004000000040000000800000008fc00000001000000030000000100000036004d0069006e0069006d0069007a006500640044006f0063006b00570069006400670065007400730054006f006f006c0062006100720000000000ffffffff0000000000000000')",
+          "type": "repr(QByteArray.hex)",
+          "pretty-print": "                                            P                                                                                                                                   Zrqt_image_view__ImageView__5__ImageViewWidget          Zrqt_image_view__ImageView__6__ImageViewWidget          Zrqt_image_view__ImageView__7__ImageViewWidget          Zrqt_image_view__ImageView__9__ImageViewWidget          Zrqt_image_view__ImageView__8__ImageViewWidget          j   P                                                                                                                                                                         C                                                                                                                                     \\rqt_image_view__ImageView__14__ImageViewWidget          \\rqt_image_view__ImageView__17__ImageViewWidget          \\rqt_image_view__ImageView__20__ImageViewWidget          \\rqt_image_view__ImageView__23__ImageViewWidget          \\rqt_image_view__ImageView__26__ImageViewWidget          \\rqt_image_view__ImageView__29__ImageViewWidget          Zrqt_image_view__ImageView__4__ImageViewWidget                                                                          P                                                        P                                                    ~   P                                                    ,   P                                                        P                                                        P                                                   S   P               \\rqt_image_view__ImageView__16__ImageViewWidget          \\rqt_image_view__ImageView__19__ImageViewWidget          \\rqt_image_view__ImageView__22__ImageViewWidget          \\rqt_image_view__ImageView__25__ImageViewWidget          \\rqt_image_view__ImageView__28__ImageViewWidget          \\rqt_image_view__ImageView__31__ImageViewWidget          Zrqt_image_view__ImageView__1__ImageViewWidget          Lrqt_topic__TopicPlugin__1__TopicWidget          Brqt_nav_view__NavigationView__1__          Brqt_msg__Messages__1__messages.ui                            6MinimizedDockWidgetsToolbar        "
+        }
+      },
+      "groups": {
+        "toolbar_areas": {
+          "keys": {
+            "MinimizedDockWidgetsToolbar": {
+              "repr": "8",
+              "type": "repr"
+            }
+          },
+          "groups": {}
+        }
+      }
+    },
+    "pluginmanager": {
+      "keys": {
+        "running-plugins": {
+          "repr": "{'rqt_image_view/ImageView': [1, 2, 3, 4, 5, 6, 7, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 9, 8], 'rqt_topic/TopicPlugin': [1]}",
+          "type": "repr"
+        }
+      },
+      "groups": {
+        "plugin__rqt_image_view__ImageView__1": {
+          "keys": {},
+          "groups": {
+            "dock_widget__ImageViewWidget": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'small3'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "dynamic_range": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "max_range": {
+                  "repr": "10.0",
+                  "type": "repr"
+                },
+                "mouse_pub_topic": {
+                  "repr": "'/each_small_image_3_mouse_left'",
+                  "type": "repr"
+                },
+                "num_gridlines": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "publish_click_location": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "rotate": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "smooth_image": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "toolbar_hidden": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "topic": {
+                  "repr": "'/each_small_image_3'",
+                  "type": "repr"
+                },
+                "zoom1": {
+                  "repr": "False",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_image_view__ImageView__10": {
+          "keys": {},
+          "groups": {
+            "dock_widget__ImageViewWidget": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'nr'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "dynamic_range": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "max_range": {
+                  "repr": "10.0",
+                  "type": "repr"
+                },
+                "mouse_pub_topic": {
+                  "repr": "'/big_noise_removed_binary_image_mouse_left'",
+                  "type": "repr"
+                },
+                "num_gridlines": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "publish_click_location": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "rotate": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "smooth_image": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "toolbar_hidden": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "topic": {
+                  "repr": "'/big_noise_removed_binary_image'",
+                  "type": "repr"
+                },
+                "zoom1": {
+                  "repr": "False",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_image_view__ImageView__11": {
+          "keys": {},
+          "groups": {
+            "dock_widget__ImageViewWidget": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'mask'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "dynamic_range": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "max_range": {
+                  "repr": "10.0",
+                  "type": "repr"
+                },
+                "mouse_pub_topic": {
+                  "repr": "'/big_mask_binary_image_mouse_left'",
+                  "type": "repr"
+                },
+                "num_gridlines": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "publish_click_location": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "rotate": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "smooth_image": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "toolbar_hidden": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "topic": {
+                  "repr": "'/big_mask_binary_image'",
+                  "type": "repr"
+                },
+                "zoom1": {
+                  "repr": "False",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_image_view__ImageView__12": {
+          "keys": {},
+          "groups": {
+            "dock_widget__ImageViewWidget": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'Maker'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "dynamic_range": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "max_range": {
+                  "repr": "10.0",
+                  "type": "repr"
+                },
+                "mouse_pub_topic": {
+                  "repr": "'/marker_image_mouse_left'",
+                  "type": "repr"
+                },
+                "num_gridlines": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "publish_click_location": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "rotate": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "smooth_image": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "toolbar_hidden": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "topic": {
+                  "repr": "'/marker_image'",
+                  "type": "repr"
+                },
+                "zoom1": {
+                  "repr": "False",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_image_view__ImageView__13": {
+          "keys": {},
+          "groups": {
+            "dock_widget__ImageViewWidget": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'Trans'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "dynamic_range": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "max_range": {
+                  "repr": "10.0",
+                  "type": "repr"
+                },
+                "mouse_pub_topic": {
+                  "repr": "'/perspective_transform_image_mouse_left'",
+                  "type": "repr"
+                },
+                "num_gridlines": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "publish_click_location": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "rotate": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "smooth_image": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "toolbar_hidden": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "topic": {
+                  "repr": "'/perspective_transform_image'",
+                  "type": "repr"
+                },
+                "zoom1": {
+                  "repr": "False",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_image_view__ImageView__14": {
+          "keys": {},
+          "groups": {
+            "dock_widget__ImageViewWidget": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'roi1'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "dynamic_range": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "max_range": {
+                  "repr": "10.0",
+                  "type": "repr"
+                },
+                "mouse_pub_topic": {
+                  "repr": "'/each_roi_image_1_mouse_left'",
+                  "type": "repr"
+                },
+                "num_gridlines": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "publish_click_location": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "rotate": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "smooth_image": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "toolbar_hidden": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "topic": {
+                  "repr": "'/each_roi_image_1'",
+                  "type": "repr"
+                },
+                "zoom1": {
+                  "repr": "False",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_image_view__ImageView__15": {
+          "keys": {},
+          "groups": {
+            "dock_widget__ImageViewWidget": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'roi2'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "dynamic_range": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "max_range": {
+                  "repr": "10.0",
+                  "type": "repr"
+                },
+                "mouse_pub_topic": {
+                  "repr": "'/each_roi_image_2_mouse_left'",
+                  "type": "repr"
+                },
+                "num_gridlines": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "publish_click_location": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "rotate": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "smooth_image": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "toolbar_hidden": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "topic": {
+                  "repr": "'/each_roi_image_2'",
+                  "type": "repr"
+                },
+                "zoom1": {
+                  "repr": "False",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_image_view__ImageView__16": {
+          "keys": {},
+          "groups": {
+            "dock_widget__ImageViewWidget": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'roi3'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "dynamic_range": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "max_range": {
+                  "repr": "10.0",
+                  "type": "repr"
+                },
+                "mouse_pub_topic": {
+                  "repr": "'/each_roi_image_3_mouse_left'",
+                  "type": "repr"
+                },
+                "num_gridlines": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "publish_click_location": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "rotate": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "smooth_image": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "toolbar_hidden": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "topic": {
+                  "repr": "'/each_roi_image_3'",
+                  "type": "repr"
+                },
+                "zoom1": {
+                  "repr": "False",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_image_view__ImageView__17": {
+          "keys": {},
+          "groups": {
+            "dock_widget__ImageViewWidget": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'sr1'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "dynamic_range": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "max_range": {
+                  "repr": "10.0",
+                  "type": "repr"
+                },
+                "mouse_pub_topic": {
+                  "repr": "'/shadow_removed_image_1_mouse_left'",
+                  "type": "repr"
+                },
+                "num_gridlines": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "publish_click_location": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "rotate": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "smooth_image": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "toolbar_hidden": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "topic": {
+                  "repr": "'/shadow_removed_image_1'",
+                  "type": "repr"
+                },
+                "zoom1": {
+                  "repr": "False",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_image_view__ImageView__18": {
+          "keys": {},
+          "groups": {
+            "dock_widget__ImageViewWidget": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'sr2'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "dynamic_range": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "max_range": {
+                  "repr": "10.0",
+                  "type": "repr"
+                },
+                "mouse_pub_topic": {
+                  "repr": "'/shadow_removed_image_2_mouse_left'",
+                  "type": "repr"
+                },
+                "num_gridlines": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "publish_click_location": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "rotate": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "smooth_image": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "toolbar_hidden": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "topic": {
+                  "repr": "'/shadow_removed_image_2'",
+                  "type": "repr"
+                },
+                "zoom1": {
+                  "repr": "False",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_image_view__ImageView__19": {
+          "keys": {},
+          "groups": {
+            "dock_widget__ImageViewWidget": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'sr3'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "dynamic_range": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "max_range": {
+                  "repr": "10.0",
+                  "type": "repr"
+                },
+                "mouse_pub_topic": {
+                  "repr": "'/shadow_removed_image_3_mouse_left'",
+                  "type": "repr"
+                },
+                "num_gridlines": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "publish_click_location": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "rotate": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "smooth_image": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "toolbar_hidden": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "topic": {
+                  "repr": "'/shadow_removed_image_3'",
+                  "type": "repr"
+                },
+                "zoom1": {
+                  "repr": "False",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_image_view__ImageView__2": {
+          "keys": {},
+          "groups": {
+            "dock_widget__ImageViewWidget": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'Raw'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "dynamic_range": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "max_range": {
+                  "repr": "10.0",
+                  "type": "repr"
+                },
+                "mouse_pub_topic": {
+                  "repr": "'/usb_cam/image_raw_mouse_left'",
+                  "type": "repr"
+                },
+                "num_gridlines": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "publish_click_location": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "rotate": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "smooth_image": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "toolbar_hidden": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "topic": {
+                  "repr": "'/usb_cam/image_raw'",
+                  "type": "repr"
+                },
+                "zoom1": {
+                  "repr": "False",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_image_view__ImageView__20": {
+          "keys": {},
+          "groups": {
+            "dock_widget__ImageViewWidget": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'br1'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "dynamic_range": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "max_range": {
+                  "repr": "10.0",
+                  "type": "repr"
+                },
+                "mouse_pub_topic": {
+                  "repr": "'/background_removed_image_1_mouse_left'",
+                  "type": "repr"
+                },
+                "num_gridlines": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "publish_click_location": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "rotate": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "smooth_image": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "toolbar_hidden": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "topic": {
+                  "repr": "'/background_removed_image_1'",
+                  "type": "repr"
+                },
+                "zoom1": {
+                  "repr": "False",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_image_view__ImageView__21": {
+          "keys": {},
+          "groups": {
+            "dock_widget__ImageViewWidget": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'br2'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "dynamic_range": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "max_range": {
+                  "repr": "10.0",
+                  "type": "repr"
+                },
+                "mouse_pub_topic": {
+                  "repr": "'/background_removed_image_2_mouse_left'",
+                  "type": "repr"
+                },
+                "num_gridlines": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "publish_click_location": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "rotate": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "smooth_image": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "toolbar_hidden": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "topic": {
+                  "repr": "'/background_removed_image_2'",
+                  "type": "repr"
+                },
+                "zoom1": {
+                  "repr": "False",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_image_view__ImageView__22": {
+          "keys": {},
+          "groups": {
+            "dock_widget__ImageViewWidget": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'br3'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "dynamic_range": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "max_range": {
+                  "repr": "10.0",
+                  "type": "repr"
+                },
+                "mouse_pub_topic": {
+                  "repr": "'/background_removed_image_3_mouse_left'",
+                  "type": "repr"
+                },
+                "num_gridlines": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "publish_click_location": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "rotate": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "smooth_image": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "toolbar_hidden": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "topic": {
+                  "repr": "'/background_removed_image_3'",
+                  "type": "repr"
+                },
+                "zoom1": {
+                  "repr": "False",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_image_view__ImageView__23": {
+          "keys": {},
+          "groups": {
+            "dock_widget__ImageViewWidget": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'bin1'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "dynamic_range": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "max_range": {
+                  "repr": "10.0",
+                  "type": "repr"
+                },
+                "mouse_pub_topic": {
+                  "repr": "'/each_binary_image_1_mouse_left'",
+                  "type": "repr"
+                },
+                "num_gridlines": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "publish_click_location": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "rotate": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "smooth_image": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "toolbar_hidden": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "topic": {
+                  "repr": "'/each_binary_image_1'",
+                  "type": "repr"
+                },
+                "zoom1": {
+                  "repr": "False",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_image_view__ImageView__24": {
+          "keys": {},
+          "groups": {
+            "dock_widget__ImageViewWidget": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'bin2'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "dynamic_range": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "max_range": {
+                  "repr": "10.0",
+                  "type": "repr"
+                },
+                "mouse_pub_topic": {
+                  "repr": "'/each_binary_image_2_mouse_left'",
+                  "type": "repr"
+                },
+                "num_gridlines": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "publish_click_location": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "rotate": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "smooth_image": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "toolbar_hidden": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "topic": {
+                  "repr": "'/each_binary_image_2'",
+                  "type": "repr"
+                },
+                "zoom1": {
+                  "repr": "False",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_image_view__ImageView__25": {
+          "keys": {},
+          "groups": {
+            "dock_widget__ImageViewWidget": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'bin3'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "dynamic_range": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "max_range": {
+                  "repr": "10.0",
+                  "type": "repr"
+                },
+                "mouse_pub_topic": {
+                  "repr": "'/each_binary_image_3_mouse_left'",
+                  "type": "repr"
+                },
+                "num_gridlines": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "publish_click_location": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "rotate": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "smooth_image": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "toolbar_hidden": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "topic": {
+                  "repr": "'/each_binary_image_3'",
+                  "type": "repr"
+                },
+                "zoom1": {
+                  "repr": "False",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_image_view__ImageView__26": {
+          "keys": {},
+          "groups": {
+            "dock_widget__ImageViewWidget": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'nr1'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "dynamic_range": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "max_range": {
+                  "repr": "10.0",
+                  "type": "repr"
+                },
+                "mouse_pub_topic": {
+                  "repr": "'/each_noise_removed_image_1_mouse_left'",
+                  "type": "repr"
+                },
+                "num_gridlines": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "publish_click_location": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "rotate": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "smooth_image": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "toolbar_hidden": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "topic": {
+                  "repr": "'/each_noise_removed_image_1'",
+                  "type": "repr"
+                },
+                "zoom1": {
+                  "repr": "False",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_image_view__ImageView__27": {
+          "keys": {},
+          "groups": {
+            "dock_widget__ImageViewWidget": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'nr2'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "dynamic_range": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "max_range": {
+                  "repr": "10.0",
+                  "type": "repr"
+                },
+                "mouse_pub_topic": {
+                  "repr": "'/each_noise_removed_image_2_mouse_left'",
+                  "type": "repr"
+                },
+                "num_gridlines": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "publish_click_location": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "rotate": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "smooth_image": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "toolbar_hidden": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "topic": {
+                  "repr": "'/each_noise_removed_image_2'",
+                  "type": "repr"
+                },
+                "zoom1": {
+                  "repr": "False",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_image_view__ImageView__28": {
+          "keys": {},
+          "groups": {
+            "dock_widget__ImageViewWidget": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'nr3'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "dynamic_range": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "max_range": {
+                  "repr": "10.0",
+                  "type": "repr"
+                },
+                "mouse_pub_topic": {
+                  "repr": "'/each_noise_removed_image_3_mouse_left'",
+                  "type": "repr"
+                },
+                "num_gridlines": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "publish_click_location": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "rotate": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "smooth_image": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "toolbar_hidden": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "topic": {
+                  "repr": "'/each_noise_removed_image_3'",
+                  "type": "repr"
+                },
+                "zoom1": {
+                  "repr": "False",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_image_view__ImageView__29": {
+          "keys": {},
+          "groups": {
+            "dock_widget__ImageViewWidget": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'mask1'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "dynamic_range": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "max_range": {
+                  "repr": "10.0",
+                  "type": "repr"
+                },
+                "mouse_pub_topic": {
+                  "repr": "'/each_mask_image_1_mouse_left'",
+                  "type": "repr"
+                },
+                "num_gridlines": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "publish_click_location": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "rotate": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "smooth_image": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "toolbar_hidden": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "topic": {
+                  "repr": "'/each_mask_image_1'",
+                  "type": "repr"
+                },
+                "zoom1": {
+                  "repr": "False",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_image_view__ImageView__3": {
+          "keys": {},
+          "groups": {
+            "dock_widget__ImageViewWidget": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'small2'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "dynamic_range": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "max_range": {
+                  "repr": "10.0",
+                  "type": "repr"
+                },
+                "mouse_pub_topic": {
+                  "repr": "'/each_small_image_2_mouse_left'",
+                  "type": "repr"
+                },
+                "num_gridlines": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "publish_click_location": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "rotate": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "smooth_image": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "toolbar_hidden": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "topic": {
+                  "repr": "'/each_small_image_2'",
+                  "type": "repr"
+                },
+                "zoom1": {
+                  "repr": "False",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_image_view__ImageView__30": {
+          "keys": {},
+          "groups": {
+            "dock_widget__ImageViewWidget": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'mask2'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "dynamic_range": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "max_range": {
+                  "repr": "10.0",
+                  "type": "repr"
+                },
+                "mouse_pub_topic": {
+                  "repr": "'/each_mask_image_2_mouse_left'",
+                  "type": "repr"
+                },
+                "num_gridlines": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "publish_click_location": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "rotate": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "smooth_image": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "toolbar_hidden": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "topic": {
+                  "repr": "'/each_mask_image_2'",
+                  "type": "repr"
+                },
+                "zoom1": {
+                  "repr": "False",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_image_view__ImageView__31": {
+          "keys": {},
+          "groups": {
+            "dock_widget__ImageViewWidget": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'mask3'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "dynamic_range": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "max_range": {
+                  "repr": "10.0",
+                  "type": "repr"
+                },
+                "mouse_pub_topic": {
+                  "repr": "'/each_mask_image_3_mouse_left'",
+                  "type": "repr"
+                },
+                "num_gridlines": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "publish_click_location": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "rotate": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "smooth_image": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "toolbar_hidden": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "topic": {
+                  "repr": "'/each_mask_image_3'",
+                  "type": "repr"
+                },
+                "zoom1": {
+                  "repr": "False",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_image_view__ImageView__32": {
+          "keys": {},
+          "groups": {
+            "dock_widget__ImageViewWidget": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'Smantic'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "dynamic_range": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "max_range": {
+                  "repr": "10.0",
+                  "type": "repr"
+                },
+                "mouse_pub_topic": {
+                  "repr": "'/semantic_image_mouse_left'",
+                  "type": "repr"
+                },
+                "num_gridlines": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "publish_click_location": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "rotate": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "smooth_image": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "toolbar_hidden": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "topic": {
+                  "repr": "'/semantic_image'",
+                  "type": "repr"
+                },
+                "zoom1": {
+                  "repr": "False",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_image_view__ImageView__33": {
+          "keys": {},
+          "groups": {
+            "dock_widget__ImageViewWidget": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'ranged'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "dynamic_range": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "max_range": {
+                  "repr": "10.0",
+                  "type": "repr"
+                },
+                "mouse_pub_topic": {
+                  "repr": "'/big_ranged_img_mouse_left'",
+                  "type": "repr"
+                },
+                "num_gridlines": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "publish_click_location": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "rotate": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "smooth_image": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "toolbar_hidden": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "topic": {
+                  "repr": "'/big_ranged_img'",
+                  "type": "repr"
+                },
+                "zoom1": {
+                  "repr": "False",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_image_view__ImageView__4": {
+          "keys": {},
+          "groups": {
+            "dock_widget__ImageViewWidget": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'small1'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "dynamic_range": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "max_range": {
+                  "repr": "10.0",
+                  "type": "repr"
+                },
+                "mouse_pub_topic": {
+                  "repr": "'/each_small_image_1_mouse_left'",
+                  "type": "repr"
+                },
+                "num_gridlines": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "publish_click_location": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "rotate": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "smooth_image": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "toolbar_hidden": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "topic": {
+                  "repr": "'/each_small_image_1'",
+                  "type": "repr"
+                },
+                "zoom1": {
+                  "repr": "False",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_image_view__ImageView__5": {
+          "keys": {},
+          "groups": {
+            "dock_widget__ImageViewWidget": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'Draft ROI'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "dynamic_range": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "max_range": {
+                  "repr": "10.0",
+                  "type": "repr"
+                },
+                "mouse_pub_topic": {
+                  "repr": "'/draft_roi_image_mouse_left'",
+                  "type": "repr"
+                },
+                "num_gridlines": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "publish_click_location": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "rotate": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "smooth_image": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "toolbar_hidden": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "topic": {
+                  "repr": "'/draft_roi_image'",
+                  "type": "repr"
+                },
+                "zoom1": {
+                  "repr": "False",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_image_view__ImageView__6": {
+          "keys": {},
+          "groups": {
+            "dock_widget__ImageViewWidget": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'Big H'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "dynamic_range": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "max_range": {
+                  "repr": "10.0",
+                  "type": "repr"
+                },
+                "mouse_pub_topic": {
+                  "repr": "'/big_h_img_mouse_left'",
+                  "type": "repr"
+                },
+                "num_gridlines": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "publish_click_location": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "rotate": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "smooth_image": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "toolbar_hidden": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "topic": {
+                  "repr": "'/big_h_img'",
+                  "type": "repr"
+                },
+                "zoom1": {
+                  "repr": "False",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_image_view__ImageView__7": {
+          "keys": {},
+          "groups": {
+            "dock_widget__ImageViewWidget": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'Big S'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "dynamic_range": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "max_range": {
+                  "repr": "10.0",
+                  "type": "repr"
+                },
+                "mouse_pub_topic": {
+                  "repr": "'/big_s_img_mouse_left'",
+                  "type": "repr"
+                },
+                "num_gridlines": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "publish_click_location": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "rotate": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "smooth_image": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "toolbar_hidden": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "topic": {
+                  "repr": "'/big_s_img'",
+                  "type": "repr"
+                },
+                "zoom1": {
+                  "repr": "False",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_image_view__ImageView__8": {
+          "keys": {},
+          "groups": {
+            "dock_widget__ImageViewWidget": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'mul'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "dynamic_range": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "max_range": {
+                  "repr": "10.0",
+                  "type": "repr"
+                },
+                "mouse_pub_topic": {
+                  "repr": "'/multiply_image_mouse_left'",
+                  "type": "repr"
+                },
+                "num_gridlines": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "publish_click_location": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "rotate": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "smooth_image": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "toolbar_hidden": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "topic": {
+                  "repr": "'/multiply_image'",
+                  "type": "repr"
+                },
+                "zoom1": {
+                  "repr": "False",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_image_view__ImageView__9": {
+          "keys": {},
+          "groups": {
+            "dock_widget__ImageViewWidget": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'Big V'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "dynamic_range": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "max_range": {
+                  "repr": "10.0",
+                  "type": "repr"
+                },
+                "mouse_pub_topic": {
+                  "repr": "'/big_v_img_mouse_left'",
+                  "type": "repr"
+                },
+                "num_gridlines": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "publish_click_location": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "rotate": {
+                  "repr": "0",
+                  "type": "repr"
+                },
+                "smooth_image": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "toolbar_hidden": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "topic": {
+                  "repr": "'/big_v_img'",
+                  "type": "repr"
+                },
+                "zoom1": {
+                  "repr": "False",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_topic__TopicPlugin__1": {
+          "keys": {},
+          "groups": {
+            "dock_widget__TopicWidget": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'Topic Monitor'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "tree_widget_header_state": {
+                  "repr(QByteArray.hex)": "QtCore.QByteArray(b'000000ff000000000000000100000000000000000100000000000000000000000000000000000003cd000000050101000100000000000000000500000064ffffffff000000810000000300000005000001b100000001000000030000012b00000001000000030000006200000001000000030000002b0000000100000003000000640000000100000003000003e80000000064')",
+                  "type": "repr(QByteArray.hex)",
+                  "pretty-print": "                              d               +     b     +     d        "
+                }
+              },
+              "groups": {}
+            }
+          }
+        }
+      }
+    }
+  }
+}
