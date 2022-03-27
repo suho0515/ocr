@@ -66,6 +66,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a14a538ac4cd096cd63985a10a8da782a"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classocr__node_1_1OCR.html#a14a538ac4cd096cd63985a10a8da782a">get_morpholgy_close</a> (self, img)</td></tr>
 <tr class="memdesc:a14a538ac4cd096cd63985a10a8da782a"><td class="mdescLeft">&#160;</td><td class="mdescRight">to eleminate noise of image, we adapt morpholgy(Close)  <a href="classocr__node_1_1OCR.html#a14a538ac4cd096cd63985a10a8da782a">More...</a><br /></td></tr>
 <tr class="separator:a14a538ac4cd096cd63985a10a8da782a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6695ef0c5b6852c855ee62407f9d5079"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classocr__node_1_1OCR.html#a6695ef0c5b6852c855ee62407f9d5079">get_multiply</a> (self, img, val)</td></tr>
+<tr class="memdesc:a6695ef0c5b6852c855ee62407f9d5079"><td class="mdescLeft">&#160;</td><td class="mdescRight">to make image brighter, we adapt image multiply here  <a href="classocr__node_1_1OCR.html#a6695ef0c5b6852c855ee62407f9d5079">More...</a><br /></td></tr>
+<tr class="separator:a6695ef0c5b6852c855ee62407f9d5079"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afb1467e843b754fa49b7a18cbe454108"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classocr__node_1_1OCR.html#afb1467e843b754fa49b7a18cbe454108">get_range</a> (self, img, min1, min2, min3, max1, max2, max3)</td></tr>
 <tr class="memdesc:afb1467e843b754fa49b7a18cbe454108"><td class="mdescLeft">&#160;</td><td class="mdescRight">for rgb or hsv image we could adapt inrange function in opencv  <a href="classocr__node_1_1OCR.html#afb1467e843b754fa49b7a18cbe454108">More...</a><br /></td></tr>
 <tr class="separator:afb1467e843b754fa49b7a18cbe454108"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -237,6 +240,9 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a16b078e74cf590cae9b747bc17f875ee"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classocr__node_1_1OCR.html#a16b078e74cf590cae9b747bc17f875ee">model</a></td></tr>
 <tr class="memdesc:a16b078e74cf590cae9b747bc17f875ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">trained model directory  <a href="classocr__node_1_1OCR.html#a16b078e74cf590cae9b747bc17f875ee">More...</a><br /></td></tr>
 <tr class="separator:a16b078e74cf590cae9b747bc17f875ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a59a793cf98372d8ec6be3d84e7f0f6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classocr__node_1_1OCR.html#a4a59a793cf98372d8ec6be3d84e7f0f6">mul_img_pub</a></td></tr>
+<tr class="memdesc:a4a59a793cf98372d8ec6be3d84e7f0f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">multiply image publisher.  <a href="classocr__node_1_1OCR.html#a4a59a793cf98372d8ec6be3d84e7f0f6">More...</a><br /></td></tr>
+<tr class="separator:a4a59a793cf98372d8ec6be3d84e7f0f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5e9303a3842fc8f60e0b31612341496d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classocr__node_1_1OCR.html#a5e9303a3842fc8f60e0b31612341496d">num</a></td></tr>
 <tr class="memdesc:a5e9303a3842fc8f60e0b31612341496d"><td class="mdescLeft">&#160;</td><td class="mdescRight">we use this member variable when approach to dataset  <a href="classocr__node_1_1OCR.html#a5e9303a3842fc8f60e0b31612341496d">More...</a><br /></td></tr>
 <tr class="separator:a5e9303a3842fc8f60e0b31612341496d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -336,7 +342,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00151">151</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00153">153</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -382,7 +388,7 @@ output constraints: <br  />
  - cv_image should be color image (3 channel)</dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>cv_image converted to opencv format image </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00396">396</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00402">402</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -414,7 +420,7 @@ output constraints: <br  />
  - image size should be 40x40 (size of dataset) <br  />
  - image should be binary image (1 channel) </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l01233">1233</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l01282">1282</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -463,7 +469,7 @@ output constraints: <br  />
 <dd>
 cnts: contour which is detected from binary image. the number of contour should be 4. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00642">642</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00691">691</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -511,7 +517,7 @@ output constraints: <br  />
  - image should be binary image (1 channel)</dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>vol: output detected volume. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l01133">1133</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l01182">1182</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -555,7 +561,7 @@ output constraints: <br  />
  - none</dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>none </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00159">159</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00161">161</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -614,7 +620,7 @@ output constraints: <br  />
  - binary_image should be binary image (1 channel)</dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>bin_img: output binary image </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00524">524</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00573">573</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -661,7 +667,7 @@ output constraints: <br  />
  - draft_roi_image should be color image (3 channel)</dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>draft_roi_img: roi image which is given size manually, this approach sould be modificated in future </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00431">431</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00437">437</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -715,7 +721,7 @@ roi_2: second digit image </dd>
 <dd>
 roi_3: third digit image </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00839">839</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00888">888</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -766,7 +772,7 @@ output constraints: <br  />
  - v_image should be mono image (1 channel)</dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>h_img, s_img, v_img: all images sould be return </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00477">477</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00526">526</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -812,7 +818,59 @@ output constraints: <br  />
  - morph_img should be gray image (1 channel)</dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>morph_img: output morphology image. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l01350">1350</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l01399">1399</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+
+</div>
+</div>
+<a id="a6695ef0c5b6852c855ee62407f9d5079"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6695ef0c5b6852c855ee62407f9d5079">&#9670;&nbsp;</a></span>get_multiply()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">def ocr_node.OCR.get_multiply </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>self</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>img</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>val</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>to make image brighter, we adapt image multiply here </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">img</td><td>opencv format image</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>input constraints: <br  />
+ - image should not be empty <br  />
+ - image should be color image (3 channel)</dd>
+<dd>
+output constraints: <br  />
+ - mul_img should not be empty <br  />
+ - mul_img should be color image (3 channel)</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>mul_img: multiplied image </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00483">483</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -901,7 +959,7 @@ output constraints: <br  />
  - ranged_img should be binary image (1 channel)</dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>ranged_img: output ranged image. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00773">773</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00822">822</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -975,7 +1033,7 @@ output constraints: <br  />
  - semantic_img should be color image (3 channel)</dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>semantic_img: output semantic image. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l01393">1393</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l01442">1442</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -1021,7 +1079,7 @@ output constraints: <br  />
  - sharp_img should be color image (3 channel)</dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>sharp_img: output sharpening image. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00958">958</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l01007">1007</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -1069,7 +1127,7 @@ output constraints: <br  />
  - smal_img should be gray image (1 channel)</dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>: output small size image. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l01051">1051</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l01100">1100</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -1123,7 +1181,7 @@ output constraints: <br  />
  - valid_vol should be ranged 0~100</dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>valid_vol: valid volume </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l01188">1188</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l01237">1237</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -1155,7 +1213,7 @@ output constraints: <br  />
  - image size should be 40x40 (size of dataset) <br  />
  - image should be binary image (1 channel) </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l01288">1288</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l01337">1337</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -1210,7 +1268,7 @@ output constraints: <br  />
  - trans_img should be color image (3 channel)</dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>trans_img: output perspective transform image. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00700">700</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00749">749</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -1256,7 +1314,7 @@ output constraints: <br  />
  - background_removed_img should be color image (3 channel)</dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>background_removed_img: output background removed image. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l01004">1004</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l01053">1053</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -1345,7 +1403,7 @@ output constraints: <br  />
  - noise_removed_binary_image should be binary image (1 channel)</dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>noise_removed_bin_img: output binary image which the noise is removed </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00576">576</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00625">625</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -1392,7 +1450,7 @@ output constraints: <br  />
  - shadow_removed_img should be color image (3 channel)</dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>shadow_removed_img: output shadow removed image. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00905">905</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00954">954</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -1412,7 +1470,7 @@ output constraints: <br  />
 <p>big binary image publisher. </p>
 <p>the topic message is "big_binary_image". </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00037">37</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00039">39</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -1431,7 +1489,7 @@ output constraints: <br  />
 <p>big h image(in hsv format) publisher. </p>
 <p>the topic message is "big_h_image". </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00031">31</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00033">33</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -1450,7 +1508,7 @@ output constraints: <br  />
 <p>big hsv image(in hsv format) publisher. </p>
 <p>the topic message is "big_hsv_image". </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00029">29</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00031">31</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -1469,7 +1527,7 @@ output constraints: <br  />
 <p>big mask binary image publisher. </p>
 <p>the topic message is "big_mask_binary_image". </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00041">41</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00043">43</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -1488,7 +1546,7 @@ output constraints: <br  />
 <p>big noise removed binary image publisher. </p>
 <p>the topic message is "big_noise_removed_binary_image". </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00039">39</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00041">41</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -1507,7 +1565,7 @@ output constraints: <br  />
 <p>small binary image publisher. </p>
 <p>the topic message is "small_binary_image". </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00057">57</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00059">59</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -1526,7 +1584,7 @@ output constraints: <br  />
 <p>big s image(in hsv format) publisher. </p>
 <p>the topic message is "big_s_image". </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00033">33</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00035">35</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -1545,7 +1603,7 @@ output constraints: <br  />
 <p>big v image(in hsv format) publisher. </p>
 <p>the topic message is "big_v_image". </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00035">35</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00037">37</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -1581,7 +1639,7 @@ output constraints: <br  />
 
 <p>center different percentage message </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00148">148</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00150">150</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -1599,7 +1657,7 @@ output constraints: <br  />
 
 <p>it is center difference percentage publisher </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00119">119</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00121">121</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -1617,7 +1675,7 @@ output constraints: <br  />
 
 <p>center percentage </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00146">146</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00148">148</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -1636,7 +1694,7 @@ output constraints: <br  />
 <p>self.debug_flag: if debug_flag is true, all debug topic message would published. </p>
 <p>if debug_flag is false, only necessary topic message would published. </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00123">123</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00125">125</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -1674,7 +1732,7 @@ output constraints: <br  />
 <p>background removed image publisher. </p>
 <p>the topic message is "background_removed_image". </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00071">71</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00073">73</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -1693,7 +1751,7 @@ output constraints: <br  />
 <p>background removed image publisher. </p>
 <p>the topic message is "background_removed_image". </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00073">73</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00075">75</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -1712,7 +1770,7 @@ output constraints: <br  />
 <p>background removed image publisher. </p>
 <p>the topic message is "background_removed_image". </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00075">75</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00077">77</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -1731,7 +1789,7 @@ output constraints: <br  />
 <p>each binary image publisher. </p>
 <p>the topic message is "each_binary_image". </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00083">83</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00085">85</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -1750,7 +1808,7 @@ output constraints: <br  />
 <p>each binary image publisher. </p>
 <p>the topic message is "each_binary_image". </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00085">85</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00087">87</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -1769,7 +1827,7 @@ output constraints: <br  />
 <p>each binary image publisher. </p>
 <p>the topic message is "each_binary_image". </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00087">87</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00089">89</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -1788,7 +1846,7 @@ output constraints: <br  />
 <p>each morpholgy(close) image publisher. </p>
 <p>the topic message is "each_close_image". </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00089">89</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00091">91</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -1807,7 +1865,7 @@ output constraints: <br  />
 <p>each morpholgy(close) image publisher. </p>
 <p>the topic message is "each_close_image". </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00091">91</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00093">93</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -1826,7 +1884,7 @@ output constraints: <br  />
 <p>each morpholgy(close) image publisher. </p>
 <p>the topic message is "each_close_image". </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00093">93</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00095">95</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -1845,7 +1903,7 @@ output constraints: <br  />
 <p>each mask image publisher. </p>
 <p>the topic message is "each_mask_image". </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00101">101</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00103">103</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -1864,7 +1922,7 @@ output constraints: <br  />
 <p>each mask image publisher. </p>
 <p>the topic message is "each_mask_image". </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00103">103</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00105">105</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -1883,7 +1941,7 @@ output constraints: <br  />
 <p>each mask image publisher. </p>
 <p>the topic message is "each_mask_image". </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00105">105</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00107">107</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -1902,7 +1960,7 @@ output constraints: <br  />
 <p>each noise removed image publisher. </p>
 <p>the topic message is "each_noise_removed_image". </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00095">95</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00097">97</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -1921,7 +1979,7 @@ output constraints: <br  />
 <p>each noise removed image publisher. </p>
 <p>the topic message is "each_noise_removed_image". </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00097">97</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00099">99</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -1940,7 +1998,7 @@ output constraints: <br  />
 <p>each noise removed image publisher. </p>
 <p>the topic message is "each_noise_removed_image". </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00099">99</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00101">101</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -1959,7 +2017,7 @@ output constraints: <br  />
 <p>each_roi_1 image publisher. </p>
 <p>the topic message is "each_roi_1_image". </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00059">59</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00061">61</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -1978,7 +2036,7 @@ output constraints: <br  />
 <p>each_roi_2 image publisher. </p>
 <p>the topic message is "each_roi_2_image". </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00061">61</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00063">63</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -1997,7 +2055,7 @@ output constraints: <br  />
 <p>each_roi_3 image publisher. </p>
 <p>the topic message is "each_roi_3_image". </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00063">63</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00065">65</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -2016,7 +2074,7 @@ output constraints: <br  />
 <p>shadow removed image publisher. </p>
 <p>the topic message is "shadow_removed_image". </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00065">65</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00067">67</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -2035,7 +2093,7 @@ output constraints: <br  />
 <p>shadow removed image publisher. </p>
 <p>the topic message is "shadow_removed_image". </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00067">67</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00069">69</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -2054,7 +2112,7 @@ output constraints: <br  />
 <p>shadow removed image publisher. </p>
 <p>the topic message is "shadow_removed_image". </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00069">69</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00071">71</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -2073,7 +2131,7 @@ output constraints: <br  />
 <p>sharpening image publisher. </p>
 <p>the topic message is "sharpening_image". </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00077">77</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00079">79</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -2092,7 +2150,7 @@ output constraints: <br  />
 <p>sharpening image publisher. </p>
 <p>the topic message is "sharpening_image". </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00079">79</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00081">81</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -2111,7 +2169,7 @@ output constraints: <br  />
 <p>sharpening image publisher. </p>
 <p>the topic message is "sharpening_image". </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00081">81</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00083">83</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -2130,7 +2188,7 @@ output constraints: <br  />
 <p>each small image publisher. </p>
 <p>the topic message is "each_small_image". </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00107">107</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00109">109</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -2149,7 +2207,7 @@ output constraints: <br  />
 <p>each small image publisher. </p>
 <p>the topic message is "each_small_image". </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00109">109</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00111">111</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -2168,7 +2226,7 @@ output constraints: <br  />
 <p>each small image publisher. </p>
 <p>the topic message is "each_small_image". </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00111">111</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00113">113</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -2223,7 +2281,7 @@ output constraints: <br  />
 
 <p>integer real-time volume </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00132">132</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00134">134</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -2242,7 +2300,7 @@ output constraints: <br  />
 <p>marker image publisher. </p>
 <p>the topic message is "marker_image". </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00043">43</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00045">45</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -2261,7 +2319,26 @@ output constraints: <br  />
 <p>trained model directory </p>
 <p>knn model </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00143">143</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00145">145</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+
+</div>
+</div>
+<a id="a4a59a793cf98372d8ec6be3d84e7f0f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4a59a793cf98372d8ec6be3d84e7f0f6">&#9670;&nbsp;</a></span>mul_img_pub</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">ocr_node.OCR.mul_img_pub</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>multiply image publisher. </p>
+<p>the topic message is "multiply_image" </p>
+
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00029">29</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -2279,7 +2356,7 @@ output constraints: <br  />
 
 <p>we use this member variable when approach to dataset </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00125">125</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00127">127</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -2295,7 +2372,7 @@ output constraints: <br  />
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00152">152</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00154">154</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -2313,7 +2390,7 @@ output constraints: <br  />
 
 <p>detected real-time volume </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00127">127</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00129">129</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -2331,7 +2408,7 @@ output constraints: <br  />
 
 <p>it is real-time volume publisher </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00113">113</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00115">115</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -2350,7 +2427,7 @@ output constraints: <br  />
 <p>semantic image publisher. </p>
 <p>which have various information </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00117">117</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00119">119</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -2369,7 +2446,7 @@ output constraints: <br  />
 <p>small binary image publisher. </p>
 <p>the topic message is "small_binary_image". </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00055">55</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00057">57</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -2388,7 +2465,7 @@ output constraints: <br  />
 <p>small h image(in hsv format) publisher. </p>
 <p>the topic message is "small_h_image". </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00049">49</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00051">51</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -2407,7 +2484,7 @@ output constraints: <br  />
 <p>small hsv image(in hsv format) publisher. </p>
 <p>the topic message is "small_hsv_image". </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00047">47</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00049">49</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -2426,7 +2503,7 @@ output constraints: <br  />
 <p>small s image(in hsv format) publisher. </p>
 <p>the topic message is "small_s_image". </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00051">51</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00053">53</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -2445,7 +2522,7 @@ output constraints: <br  />
 <p>small v image(in hsv format) publisher. </p>
 <p>the topic message is "small_v_image". </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00053">53</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00055">55</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -2463,7 +2540,7 @@ output constraints: <br  />
 
 <p>we use this variable when we visualize the real-time volume </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00130">130</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00132">132</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -2481,7 +2558,7 @@ output constraints: <br  />
 
 <p>we use this variable when we visualize the real-time volume </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00139">139</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00141">141</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -2500,7 +2577,7 @@ output constraints: <br  />
 <p>perspective transform image publisher. </p>
 <p>the topic message is "perspective_transform_image". </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00045">45</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00047">47</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -2518,7 +2595,7 @@ output constraints: <br  />
 
 <p>detected valid volume </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00134">134</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00136">136</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -2536,7 +2613,7 @@ output constraints: <br  />
 
 <p>it is real-time volume publisher </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00115">115</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00117">117</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -2554,7 +2631,7 @@ output constraints: <br  />
 
 <p>list which will append volume </p>
 
-<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00137">137</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ocr__node_8py_source.html#l00139">139</a> of file <a class="el" href="ocr__node_8py_source.html">ocr_node.py</a>.</p>
 
 </div>
 </div>
@@ -2567,7 +2644,7 @@ output constraints: <br  />
 <hr size="1"><div style="align: right;">
 <a href="http://wiki.ros.org/ocr">ocr</a><br />
 Author(s): </br />
-<small>autogenerated on Sun Mar 27 2022 06:16:06</small>
+<small>autogenerated on Sun Mar 27 2022 15:23:34</small>
 </div>
 </body>
 </html>
