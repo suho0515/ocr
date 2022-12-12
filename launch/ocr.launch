@@ -1,0 +1,89 @@
+<launch>
+  
+  <!-- image size is 640x480 -->
+  <!-- Set draft roi image size -->
+  <arg name="draft_roi_h_low" default="0"/>
+  <arg name="draft_roi_h_high" default="384"/>
+  <arg name="draft_roi_w_low" default="192"/>
+  <arg name="draft_roi_w_high" default="416"/>
+
+  <!-- Set multiply image value -->
+  <arg name="multiply_value" default="2.0"/>
+
+  <!-- Set HSV image range -->
+  <arg name="big_ranged_h_low" default="0"/>
+  <arg name="big_ranged_s_low" default="100"/>
+  <arg name="big_ranged_v_low" default="0"/>
+  <arg name="big_ranged_h_high" default="50"/>
+  <arg name="big_ranged_s_high" default="255"/>
+  <arg name="big_ranged_v_high" default="255"/>
+
+  <!-- Set big noise removed image value -->
+  <arg name="big_noise_removed_area_min" default="800"/>
+  <arg name="big_noise_removed_area_max" default="2500"/>
+  <arg name="big_noise_removed_w_min" default="20"/>
+  <arg name="big_noise_removed_w_max" default="60"/>
+  <arg name="big_noise_removed_h_min" default="20"/>
+  <arg name="big_noise_removed_h_max" default="60"/>
+  
+  <!-- Set each roi image value -->
+  <arg name="each_roi_1_x" default="55"/>
+  <arg name="each_roi_1_y" default="65"/>
+  <arg name="each_roi_1_w" default="40"/>
+  <arg name="each_roi_1_h" default="40"/>
+  <arg name="each_roi_2_x" default="55"/>
+  <arg name="each_roi_2_y" default="130"/>
+  <arg name="each_roi_2_w" default="40"/>
+  <arg name="each_roi_2_h" default="40"/>
+  <arg name="each_roi_3_x" default="55"/>
+  <arg name="each_roi_3_y" default="195"/>
+  <arg name="each_roi_3_w" default="40"/>
+  <arg name="each_roi_3_h" default="40"/>
+
+  <!-- Set binary image value -->
+  <arg name="each_bin_1" default="150"/>
+  <arg name="each_bin_2" default="150"/>
+  <arg name="each_bin_3" default="150"/>
+
+  <node name="ocr" pkg="ocr" type="ocr_node.py" output="screen" >
+      <param name="draft_roi_h_low" type="int" value="$(arg draft_roi_h_low)" />
+      <param name="draft_roi_h_high" type="int" value="$(arg draft_roi_h_high)" />
+      <param name="draft_roi_w_low" type="int" value="$(arg draft_roi_w_low)" />
+      <param name="draft_roi_w_high" type="int" value="$(arg draft_roi_w_high)" />
+      
+      <param name="multiply_value" type="double" value="$(arg multiply_value)" />
+      
+      <param name="big_ranged_h_low" type="int" value="$(arg big_ranged_h_low)" />
+      <param name="big_ranged_s_low" type="int" value="$(arg big_ranged_s_low)" />
+      <param name="big_ranged_v_low" type="int" value="$(arg big_ranged_v_low)" />
+      <param name="big_ranged_h_high" type="int" value="$(arg big_ranged_h_high)" />
+      <param name="big_ranged_s_high" type="int" value="$(arg big_ranged_s_high)" />
+      <param name="big_ranged_v_high" type="int" value="$(arg big_ranged_v_high)" />
+
+      <param name="big_noise_removed_area_min" type="int" value="$(arg big_noise_removed_area_min)" />
+      <param name="big_noise_removed_area_max" type="int" value="$(arg big_noise_removed_area_max)" />
+      <param name="big_noise_removed_w_min" type="int" value="$(arg big_noise_removed_w_min)" />
+      <param name="big_noise_removed_w_max" type="int" value="$(arg big_noise_removed_w_max)" />
+      <param name="big_noise_removed_h_min" type="int" value="$(arg big_noise_removed_h_min)" />
+      <param name="big_noise_removed_h_max" type="int" value="$(arg big_noise_removed_h_max)" />
+
+      <param name="each_roi_1_x" type="int" value="$(arg each_roi_1_x)" />
+      <param name="each_roi_1_y" type="int" value="$(arg each_roi_1_y)" />
+      <param name="each_roi_1_w" type="int" value="$(arg each_roi_1_w)" />
+      <param name="each_roi_1_h" type="int" value="$(arg each_roi_1_h)" />
+      <param name="each_roi_2_x" type="int" value="$(arg each_roi_2_x)" />
+      <param name="each_roi_2_y" type="int" value="$(arg each_roi_2_y)" />
+      <param name="each_roi_2_w" type="int" value="$(arg each_roi_2_w)" />
+      <param name="each_roi_2_h" type="int" value="$(arg each_roi_2_h)" />
+      <param name="each_roi_3_x" type="int" value="$(arg each_roi_3_x)" />
+      <param name="each_roi_3_y" type="int" value="$(arg each_roi_3_y)" />
+      <param name="each_roi_3_w" type="int" value="$(arg each_roi_3_w)" />
+      <param name="each_roi_3_h" type="int" value="$(arg each_roi_3_h)" />
+
+      <param name="each_bin_1" type="int" value="$(arg each_bin_1)" />
+      <param name="each_bin_2" type="int" value="$(arg each_bin_2)" />
+      <param name="each_bin_3" type="int" value="$(arg each_bin_3)" />
+
+  </node>
+  
+</launch>

@@ -14,6 +14,46 @@ import imutils
 class OCR:
 
   def __init__(self):
+
+    self.draft_roi_h_low = rospy.get_param('/ocr/draft_roi_h_low')
+    self.draft_roi_h_high = rospy.get_param('/ocr/draft_roi_h_high')
+    self.draft_roi_w_low = rospy.get_param('/ocr/draft_roi_w_low')
+    self.draft_roi_w_high = rospy.get_param('/ocr/draft_roi_w_high')
+
+    self.multiply_value = rospy.get_param('/ocr/multiply_value')
+
+    self.big_ranged_h_low = rospy.get_param('/ocr/big_ranged_h_low')
+    self.big_ranged_s_low = rospy.get_param('/ocr/big_ranged_s_low')
+    self.big_ranged_v_low = rospy.get_param('/ocr/big_ranged_v_low')
+    self.big_ranged_h_high = rospy.get_param('/ocr/big_ranged_h_high')
+    self.big_ranged_s_high = rospy.get_param('/ocr/big_ranged_s_high')
+    self.big_ranged_v_high = rospy.get_param('/ocr/big_ranged_v_high')
+
+    self.big_noise_removed_area_min = rospy.get_param('/ocr/big_noise_removed_area_min')
+    self.big_noise_removed_area_max = rospy.get_param('/ocr/big_noise_removed_area_max')
+    self.big_noise_removed_w_min = rospy.get_param('/ocr/big_noise_removed_w_min')
+    self.big_noise_removed_w_max = rospy.get_param('/ocr/big_noise_removed_w_max')
+    self.big_noise_removed_h_min = rospy.get_param('/ocr/big_noise_removed_h_min')
+    self.big_noise_removed_h_max = rospy.get_param('/ocr/big_noise_removed_h_max')
+
+    self.each_roi_1_x = rospy.get_param('/ocr/each_roi_1_x')
+    self.each_roi_1_y = rospy.get_param('/ocr/each_roi_1_y')
+    self.each_roi_1_w = rospy.get_param('/ocr/each_roi_1_w')
+    self.each_roi_1_h = rospy.get_param('/ocr/each_roi_1_h')
+    self.each_roi_2_x = rospy.get_param('/ocr/each_roi_2_x')
+    self.each_roi_2_y = rospy.get_param('/ocr/each_roi_2_y')
+    self.each_roi_2_w = rospy.get_param('/ocr/each_roi_2_w')
+    self.each_roi_2_h = rospy.get_param('/ocr/each_roi_2_h')
+    self.each_roi_3_x = rospy.get_param('/ocr/each_roi_3_x')
+    self.each_roi_3_y = rospy.get_param('/ocr/each_roi_3_y')
+    self.each_roi_3_w = rospy.get_param('/ocr/each_roi_3_w')
+    self.each_roi_3_h = rospy.get_param('/ocr/each_roi_3_h')
+
+    self.each_bin_1 = rospy.get_param('/ocr/each_bin_1')
+    self.each_bin_2 = rospy.get_param('/ocr/each_bin_2')
+    self.each_bin_3 = rospy.get_param('/ocr/each_bin_3')
+
+
     # Subscriber
     ## bridge which exist for converting ros image message data to opencv image format
     self.bridge = CvBridge()
@@ -179,13 +219,13 @@ class OCR:
       if(self.debug_flag):
         self.img_pub.publish(self.bridge.cv2_to_imgmsg(cv_image, "bgr8"))
 
-    draft_roi_img = self.get_draft_roi(cv_image)
+    draft_roi_img = self.get_draft_roi(cv_image, self.draft_roi_h_low, self.draft_roi_h_high, self.draft_roi_w_low, self.draft_roi_w_high)
     if(draft_roi_img is None): return
     else:
       if(self.debug_flag):
         self.draft_roi_img_pub.publish(self.bridge.cv2_to_imgmsg(draft_roi_img, "bgr8"))
 
-    mul_img = self.get_multiply(draft_roi_img, 2.0)
+    mul_img = self.get_multiply(draft_roi_img, self.multiply_value)
     if(mul_img is None): return
     else:
       if(self.debug_flag):
@@ -200,7 +240,7 @@ class OCR:
         self.big_s_img_pub.publish(self.bridge.cv2_to_imgmsg(big_s_img, "mono8"))
         self.big_v_img_pub.publish(self.bridge.cv2_to_imgmsg(big_v_img, "mono8"))
 
-    big_ranged_img = self.get_range(big_hsv_img, 0,0,0,50,255,255)
+    big_ranged_img = self.get_range(big_hsv_img, self.big_ranged_h_low,self.big_ranged_s_low,self.big_ranged_v_low,self.big_ranged_h_high,self.big_ranged_s_high,self.big_ranged_v_high)
     if(big_ranged_img is None): return
     else:
       if(self.debug_flag):
@@ -212,7 +252,7 @@ class OCR:
     #   if(self.debug_flag):
     #     self.big_bin_img_pub.publish(self.bridge.cv2_to_imgmsg(big_bin_img, "mono8"))
 
-    big_noise_removed_bin_img, big_mask_bin_img = self.remove_noise(big_ranged_img, 800, 2000, 20, 60, 20, 60, use_morph = False)
+    big_noise_removed_bin_img, big_mask_bin_img = self.remove_noise(big_ranged_img, self.big_noise_removed_area_min, self.big_noise_removed_area_max, self.big_noise_removed_w_min, self.big_noise_removed_w_max, self.big_noise_removed_h_min, self.big_noise_removed_h_max, use_morph = False)
     if(big_noise_removed_bin_img is None): return
     else:
       if(self.debug_flag):
@@ -231,7 +271,19 @@ class OCR:
       if(self.debug_flag):
         self.trans_img_pub.publish(self.bridge.cv2_to_imgmsg(trans_img, "bgr8"))
 
-    each_roi_img_1, each_roi_img_2, each_roi_img_3, each_roi_pts = self.get_each_roi(trans_img)
+    each_roi_img_1, each_roi_img_2, each_roi_img_3, each_roi_pts = self.get_each_roi(trans_img, 
+                                                                                    self.each_roi_1_x,
+                                                                                    self.each_roi_1_y,
+                                                                                    self.each_roi_1_w,
+                                                                                    self.each_roi_1_h,
+                                                                                    self.each_roi_2_x,
+                                                                                    self.each_roi_2_y,
+                                                                                    self.each_roi_2_w,
+                                                                                    self.each_roi_2_h,
+                                                                                    self.each_roi_3_x,
+                                                                                    self.each_roi_3_y,
+                                                                                    self.each_roi_3_w,
+                                                                                    self.each_roi_3_h)
     if((each_roi_img_1 is None) or (each_roi_img_2 is None) or (each_roi_img_3 is None)): return
     else:
       if(self.debug_flag):
@@ -275,19 +327,19 @@ class OCR:
       if(self.debug_flag):
         self.each_bg_removed_img_3_pub.publish(self.bridge.cv2_to_imgmsg(each_bg_removed_img_3, "bgr8"))
 
-    each_bin_img_1 = self.get_binary(each_bg_removed_img_1, 100)
+    each_bin_img_1 = self.get_binary(each_bg_removed_img_1, self.each_bin_1)
     if(each_bin_img_1 is None): return
     else:
       if(self.debug_flag):
         self.each_bin_img_1_pub.publish(self.bridge.cv2_to_imgmsg(each_bin_img_1, "mono8"))
       
-    each_bin_img_2 = self.get_binary(each_bg_removed_img_2, 100)
+    each_bin_img_2 = self.get_binary(each_bg_removed_img_2, self.each_bin_2)
     if(each_bin_img_2 is None): return
     else:
       if(self.debug_flag):
         self.each_bin_img_2_pub.publish(self.bridge.cv2_to_imgmsg(each_bin_img_2, "mono8"))
 
-    each_bin_img_3 = self.get_binary(each_bg_removed_img_3, 100)
+    each_bin_img_3 = self.get_binary(each_bg_removed_img_3, self.each_bin_3)
     if(each_bin_img_3 is None): return
     else:
       if(self.debug_flag):
@@ -376,7 +428,6 @@ class OCR:
     else:
       self.rt_vol_msg.data[2] = vol_3
       self.str_rt_vol[2] = str(vol_3)
-
     if(self.debug_flag):
       self.rt_vol_pub.publish(self.rt_vol_msg)
 
@@ -434,7 +485,7 @@ class OCR:
       print(e)
       return None
 
-  def get_draft_roi(self, img):
+  def get_draft_roi(self, img, h_low, h_high, w_low, w_high):
     """!
     @brief to avoid complexity of image processing, we get only draft roi.
     @details 
@@ -885,7 +936,7 @@ class OCR:
       return None
     pass
 
-  def get_each_roi(self, img):
+  def get_each_roi(self, img, x_1, y_1, w_1, h_1, x_2, y_2, w_2, h_2, x_3, y_3, w_3, h_3):
     """!
     @brief based on perspective transform image, we get each digit of volume indicator image in vaild roi
     @details
@@ -917,19 +968,19 @@ class OCR:
     # doing
     pts_each = [[],[],[]]
 
-    x=45; y=65; w=40; h=40
+    x=x_1; y=y_1; w=w_1; h=h_1
     roi_1 = img[y:y+h, x:x+w]
 
     pts_each[0].append(x)
     pts_each[0].append(y)
 
-    x=45; y=125; w=40; h=40
+    x=x_2; y=y_2; w=w_2; h=h_2
     roi_2 = img[y:y+h, x:x+w]
 
     pts_each[1].append(x)
     pts_each[1].append(y)
 
-    x=45; y=185; w=40; h=40
+    x=x_3; y=y_3; w=w_3; h=h_3
     roi_3 = img[y:y+h, x:x+w]
 
     pts_each[2].append(x)
@@ -1081,7 +1132,7 @@ class OCR:
       seed = (1, 1)
 
       # Use floodFill for filling the background with black color
-      cv2.floodFill(bg_removed_img, None, seedPoint=seed, newVal=(255, 255, 255), loDiff=(20, 20, 20, 20), upDiff=(100, 100, 100, 100))
+      cv2.floodFill(bg_removed_img, None, seedPoint=seed, newVal=(255, 255, 255), loDiff=(10, 10, 10, 10), upDiff=(100, 100, 100, 100))
 
       # output error check
       if (bg_removed_img is None):
@@ -1214,7 +1265,7 @@ class OCR:
           
       retval, results, neigh_resp, dists = self.model.findNearest(roismall, k = 3)
       
-      if (dists[0][0] > 500000):
+      if (dists[0][0] > 1000000):
             raise KnnDistError(retval, dists[0][0])
 
       # debug_string = "retval: " + str(retval) + " / results: " + str(results) + " / neigh_resp: " + str(neigh_resp) + " / dists: " + str(dists)
@@ -1640,7 +1691,7 @@ class NotEnoughVolumeListError(Exception):
 
 class KnnDistError(Exception):
     def __init__(self, retval, dist):
-      self.msg = "distance of knn sould be at least 500,000 but the dist of "+ str(retval) + " is " + str(dist) + "."
+      self.msg = "distance of knn sould be at least 1,000,000 but the dist of "+ str(retval) + " is " + str(dist) + "."
     def __str__(self):
       return self.msg
 
