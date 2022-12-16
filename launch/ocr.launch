@@ -45,6 +45,8 @@
   <arg name="each_bin_2" default="150"/>
   <arg name="each_bin_3" default="150"/>
 
+  <arg name="debug" default="False"/>
+
   <node name="ocr" pkg="ocr" type="ocr_node.py" output="screen" >
       <param name="draft_roi_h_low" type="int" value="$(arg draft_roi_h_low)" />
       <param name="draft_roi_h_high" type="int" value="$(arg draft_roi_h_high)" />
@@ -83,6 +85,8 @@
       <param name="each_bin_1" type="int" value="$(arg each_bin_1)" />
       <param name="each_bin_2" type="int" value="$(arg each_bin_2)" />
       <param name="each_bin_3" type="int" value="$(arg each_bin_3)" />
+
+      <param name="debug" type="bool" value="$(arg debug)" />
 
   </node>
   
