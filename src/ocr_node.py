@@ -53,6 +53,8 @@ class OCR:
     self.each_bin_2 = rospy.get_param('/ocr/each_bin_2')
     self.each_bin_3 = rospy.get_param('/ocr/each_bin_3')
 
+    self.debug = rospy.get_param('/ocr/debug')
+
 
     # Subscriber
     ## bridge which exist for converting ros image message data to opencv image format
@@ -162,7 +164,7 @@ class OCR:
 
     # Variables
     ## self.debug_flag: if debug_flag is true, all debug topic message would published. if debug_flag is false, only necessary topic message would published.
-    self.debug_flag = True
+    self.debug_flag = self.debug
     ## we use this member variable when approach to dataset
     self.num = 0
     ## detected real-time volume
@@ -189,11 +191,12 @@ class OCR:
     ## center different percentage message
     self.center_diff_percentage_msg = Int8()
 
-
   def callback(self,data):
     self.result = [-1, -1, -1]
     try:
       self.estimate_volume(data)
+      self.valid_vol_pub.publish(self.valid_vol_msg)
+      self.center_diff_percentage_pub.publish(self.center_diff_percentage_msg)
 
     except CvBridgeError as e:
       print(e)
@@ -439,14 +442,14 @@ class OCR:
     if(self.int_rt_vol != -1):
       self.valid_vol_msg.data = self.get_valid_volume(self.int_rt_vol, max_param = 1)
       
-      self.valid_vol_pub.publish(self.valid_vol_msg)
+      # self.valid_vol_pub.publish(self.valid_vol_msg)
 
     semantic_img, center_diff_percentage = self.get_semantic_image(trans_img, each_roi_pts, bounding_rect_list, self.str_rt_vol, self.valid_vol_msg.data)
     if (semantic_img is None): return
     else:
       self.semantic_img_pub.publish(self.bridge.cv2_to_imgmsg(semantic_img, "bgr8"))
       self.center_diff_percentage_msg.data = center_diff_percentage
-      self.center_diff_percentage_pub.publish(self.center_diff_percentage_msg)
+      # self.center_diff_percentage_pub.publish(self.center_diff_percentage_msg)
 
     pass
 
